@@ -781,6 +781,7 @@
                 <input type="file" id="profileImageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'profile')">
                 <button onclick="document.getElementById('profileImageUpload').click()">📷 שנה תמונת פרופיל</button>
                 <button onclick="toggleBackgroundSettingsForm()">🖼️ תמונות רקע</button>
+                <button onclick="openManageCategoriesModal()">🗂️ ניהול קטגוריות</button>
             </div>
 
             <div class="add-video-form" id="addVideoForm">
@@ -801,28 +802,17 @@
                     <div class="form-group">
                         <label>קטגוריה:</label>
                         <select id="videoCategory" onchange="handleCategoryChange(this.value)" required>
-                            <option value="greek">יוונית</option>
-                            <option value="children">נכדים</option>
-                            <option value="bar-mitzvah">ברי מצווה</option>
-                            <option value="trips">טיולים</option>
-                            <option value="family">משפחה</option>
-                            <option value="holidays">חגים</option>
-                            <option value="treated">מטופלים</option>
-                            <option value="tiktok">טיקטוק</option>
-                            <option value="birthdays">ימי הולדת</option>
-                            <option value="chef">סרטוני השף</option>
-                        </select>
+                            </select>
                     </div>
                     <div class="form-group" id="subCategoryGroup" style="display: none;">
-                        <label>תת-קטגוריה (לטיולים):</label>
+                        <label>תת-קטגוריה:</label>
                         <select id="videoSubCategory">
-                            <option value="">בחר תת-קטגוריה</option>
-                            <option value="eilat">אילת</option>
-                            <option value="dead_sea">ים המלח</option>
-                            <option value="mano_shipping">מנו ספנות</option>
-                            <option value="abroad">חו"ל</option>
-                            <option value="north_israel">צפון הארץ</option>
-                        </select>
+                            </select>
+                    </div>
+                    <div class="form-group" id="subSubCategoryGroup" style="display: none;">
+                        <label>תת-תת-קטגוריה:</label>
+                        <select id="videoSubSubCategory">
+                            </select>
                     </div>
                     <div class="form-group">
                         <label>קישור יוטיוב (אופציונלי):</label>
@@ -885,30 +875,8 @@
             </a>
         </div>
 
-        <div class="category-filters">
-            <button class="category-btn active" onclick="showCategory('all')">🎭 הכל</button>
-            <button class="category-btn" onclick="showCategory('greek')">🏛️ יוונית</button>
-            <button class="category-btn" onclick="showCategory('children')">💝 נכדים</button>
-            <button class="category-btn" onclick="showCategory('bar-mitzvah')">🕍 ברי מצווה</button>
-
-            <div class="dropdown" id="tripsDropdown">
-                <button class="category-btn trips-btn" onclick="toggleTripsDropdown(event)">✈️ טיולים</button>
-                <div class="dropdown-content">
-                    <a href="#" onclick="showCategory('trips', 'allTrips'); return false;">כל הטיולים</a>
-                    <a href="#" onclick="showCategory('trips', 'eilat'); return false;">אילת</a>
-                    <a href="#" onclick="showCategory('trips', 'dead_sea'); return false;">ים המלח</a>
-                    <a href="#" onclick="showCategory('trips', 'mano_shipping'); return false;">מנו ספנות</a>
-                    <a href="#" onclick="showCategory('trips', 'abroad'); return false;">חו"ל</a>
-                    <a href="#" onclick="showCategory('trips', 'north_israel'); return false;">צפון הארץ</a>
-                </div>
+        <div class="category-filters" id="categoryFiltersContainer">
             </div>
-            <button class="category-btn" onclick="showCategory('family')">👨‍👩‍👧‍👦 משפחה</button>
-            <button class="category-btn" onclick="showCategory('holidays')">🎉 חגים</button>
-            <button class="category-btn" onclick="showCategory('treated')">🏥 מטופלים</button>
-            <button class="category-btn" onclick="showCategory('tiktok')">📱 טיקטוק</button>
-            <button class="category-btn" onclick="showCategory('birthdays')">🎂 ימי הולדת</button>
-            <button class="category-btn" onclick="showCategory('chef')">👨‍🍳 סרטוני השף</button>
-        </div>
 
         <div id="videoCategoriesContainer">
         </div>
@@ -983,28 +951,17 @@
                 <div class="form-group">
                     <label>קטגוריה:</label>
                     <select id="editVideoCategory" onchange="handleCategoryChange(this.value, 'edit')" required>
-                        <option value="greek">יוונית</option>
-                        <option value="children">נכדים</option>
-                        <option value="bar-mitzvah">ברי מצווה</option>
-                        <option value="trips">טיולים</option>
-                        <option value="family">משפחה</option>
-                        <option value="holidays">חגים</option>
-                        <option value="treated">מטופלים</option>
-                        <option value="tiktok">טיקטוק</option>
-                        <option value="birthdays">ימי הולדת</option>
-                        <option value="chef">סרטוני השף</option>
-                    </select>
+                        </select>
                 </div>
                 <div class="form-group" id="editSubCategoryGroup" style="display: none;">
-                    <label>תת-קטגוריה (לטיולים):</label>
+                    <label>תת-קטגוריה:</label>
                     <select id="editVideoSubCategory">
-                        <option value="">בחר תת-קטגוריה</option>
-                        <option value="eilat">אילת</option>
-                        <option value="dead_sea">ים המלח</option>
-                        <option value="mano_shipping">מנו ספנות</option>
-                        <option value="abroad">חו"ל</option>
-                        <option value="north_israel">צפון הארץ</option>
-                    </select>
+                        </select>
+                </div>
+                <div class="form-group" id="editSubSubCategoryGroup" style="display: none;">
+                    <label>תת-תת-קטגוריה:</label>
+                    <select id="editVideoSubSubCategory">
+                        </select>
                 </div>
                 <div class="form-group">
                     <label>קישור יוטיוב (אופציונלי):</label>
@@ -1033,10 +990,47 @@
         </div>
     </div>
 
+    <div id="manageCategoriesModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeManageCategoriesModal()">×</span>
+            <h2>ניהול קטגוריות</h2>
+            <form onsubmit="addNewCategory(event)">
+                <div class="form-group">
+                    <label>סוג קטגוריה:</label>
+                    <div class="radio-group">
+                        <input type="radio" id="categoryTypeMain" name="newCategoryType" value="main" checked onchange="toggleParentCategoryDropdown()">
+                        <label for="categoryTypeMain">קטגוריה ראשית</label>
+                        <input type="radio" id="categoryTypeSub" name="newCategoryType" value="sub" onchange="toggleParentCategoryDropdown()">
+                        <label for="categoryTypeSub">תת-קטגוריה</label>
+                    </div>
+                </div>
+                <div class="form-group" id="parentCategorySelectGroup" style="display: none;">
+                    <label for="parentCategorySelect">קטגוריית אב:</label>
+                    <select id="parentCategorySelect">
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label for="newCategoryName">שם קטגוריה:</label>
+                    <input type="text" id="newCategoryName" required>
+                </div>
+                <div class="form-group">
+                    <label for="newCategoryId">מזהה קטגוריה (באנגלית, ללא רווחים):</label>
+                    <input type="text" id="newCategoryId" required>
+                </div>
+                <div class="form-group">
+                    <label for="newCategoryIcon">אייקון קטגוריה (אימוג'י או תו):</label>
+                    <input type="text" id="newCategoryIcon" maxlength="2" placeholder="לדוגמה: 🏠" required>
+                </div>
+                <button type="submit" class="send-btn">הוסף קטגוריה</button>
+            </form>
+        </div>
+    </div>
+
     <script>
         const LOCAL_STORAGE_KEY = 'asherVideos';
         const LOCAL_STORAGE_PROFILE_KEY = 'asherProfilePhoto';
         const LOCAL_STORAGE_BACKGROUND_KEY = 'asherBackgroundSettings';
+        const LOCAL_STORAGE_CATEGORIES_KEY = 'asherCategoriesConfig'; // New key for categories
 
         let videos = [
             // יוונית
@@ -1056,6 +1050,9 @@
             { id: Date.now() + 16, title: 'טיול שורשים בפולין', description: 'מסע מרגש בעקבות ההיסטוריה המשפחתית.', thumbnailUrl: 'https://i.ytimg.com/vi/a-b9012-ghi/hqdefault.jpg', category: 'trips', subCategory: 'abroad', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L06', tiktokLink: '' },
             { id: Date.now() + 17, title: 'טיול ג\'יפים ברמת הגולן', description: 'אדרנלין ונופים מדהימים בצפון הארץ.', thumbnailUrl: 'https://i.ytimg.com/vi/c-d3456-jkl/hqdefault.jpg', category: 'trips', subCategory: 'north_israel', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L07', tiktokLink: '' },
             { id: Date.now() + 18, title: 'הפלגה מהנה עם מנו ספנות', description: 'חוויות בלתי נשכחות על סיפון האונייה.', thumbnailUrl: 'https://i.ytimg.com/vi/m-n7890-opq/hqdefault.jpg', category: 'trips', subCategory: 'mano_shipping', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L06', tiktokLink: '' },
+            { id: Date.now() + 19, title: 'קלאב הוטל אילת - חופשה', description: 'החופשה המדהימה בקלאב הוטל באילת.', thumbnailUrl: 'https://placehold.co/300x180/007bff/ffffff?text=קלאב+הוטל', category: 'trips', subCategory: 'eilat', subSubCategory: 'club_hotel', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L09', tiktokLink: '' },
+            { id: Date.now() + 20, title: 'לאונרדו אילת - ערב כיף', description: 'ערב בלתי נשכח במלון לאונרדו באילת.', thumbnailUrl: 'https://placehold.co/300x180/28a745/ffffff?text=לאונרדו', category: 'trips', subCategory: 'eilat', subSubCategory: 'leonardo', youtubeLink: 'https://www.youtube.com/watch?v=qY6rR8b2o0M0', tiktokLink: '' },
+
 
             // משפחה
             { id: Date.now() + 8, title: 'ארוחת שישי משפחתית', description: 'ארוחת שישי חמה וטעימה עם כל המשפחה המורחבת.', thumbnailUrl: 'https://i.ytimg.com/vi/d-g10g2-d0c/hqdefault.jpg', category: 'family', youtubeLink: 'https://www.youtube.com/watch?v=d-g10g2-d0c', tiktokLink: '' },
@@ -1070,6 +1067,37 @@
             { id: Date.now() + 13, title: 'אתגר טיקטוק חדש', description: 'נסו את האתגר החדש והצחיק ביותר בטיקטוק!', thumbnailUrl: 'https://i.ytimg.com/vi/i-l65l7-i5h/hqdefault.jpg', category: 'tiktok', youtubeLink: '', tiktokLink: 'https://www.tiktok.com/@another_tiktok_user/video/987654321' },
         ];
 
+        // Default categories configuration
+        const defaultCategoriesConfig = [
+            { id: 'greek', name: 'יוונית', icon: '🏛️', type: 'main' },
+            { id: 'children', name: 'נכדים', icon: '💝', type: 'main' },
+            { id: 'bar-mitzvah', name: 'ברי מצווה', icon: '🕍', type: 'main' },
+            {
+                id: 'trips', name: 'טיולים', icon: '✈️', type: 'main',
+                subCategories: [
+                    { id: 'allTrips', name: 'כל הטיולים', icon: '✈️', iconOverride: true },
+                    {
+                        id: 'eilat', name: 'אילת', icon: '☀️',
+                        subCategories: [ // Nested subCategories
+                            { id: 'club_hotel', name: 'קלאב הוטל', icon: '🏨' },
+                            { id: 'leonardo', name: 'לאונרדו', icon: '🏢' }
+                        ]
+                    },
+                    { id: 'dead_sea', name: 'ים המלח', icon: '🧂' },
+                    { id: 'mano_shipping', name: 'מנו ספנות', icon: '🚢' },
+                    { id: 'abroad', name: 'חו"ל', icon: '🌍' },
+                    { id: 'north_israel', name: 'צפון הארץ', icon: '⛰️' }
+                ]
+            },
+            { id: 'family', name: 'משפחה', icon: '👨‍👩‍👧‍👦', type: 'main' },
+            { id: 'holidays', name: 'חגים', icon: '🎉', type: 'main' },
+            { id: 'treated', name: 'מטופלים', icon: '🏥', type: 'main' },
+            { id: 'tiktok', name: 'טיקטוק', icon: '📱', type: 'main' },
+            { id: 'birthdays', name: 'ימי הולדת', icon: '🎂', type: 'main' },
+            { id: 'chef', name: 'סרטוני השף', icon: '👨‍🍳', type: 'main' },
+        ];
+
+        let categoriesConfig = []; // This will hold the active category configuration
 
         let adminMode = false;
         let currentCropper = null;
@@ -1080,8 +1108,11 @@
             loadVideosFromLocalStorage();
             loadProfilePhotoFromLocalStorage();
             loadBackgroundSettingsFromLocalStorage();
+            loadCategoriesFromLocalStorage(); // Load categories first
+            renderCategoryButtons(); // Render buttons based on loaded categories
             displayVideos();
             showCategory('all'); // Display all videos by default
+            populateCategoryDropdowns(); // Populate add/edit video forms
         });
 
         // Close dropdown when clicking outside
@@ -1096,7 +1127,6 @@
                 }
             }
         }
-
 
         function loadVideosFromLocalStorage() {
             const storedVideos = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -1164,86 +1194,144 @@
             }
         }
 
+        function loadCategoriesFromLocalStorage() {
+            const storedCategories = localStorage.getItem(LOCAL_STORAGE_CATEGORIES_KEY);
+            if (storedCategories) {
+                categoriesConfig = JSON.parse(storedCategories);
+            } else {
+                categoriesConfig = defaultCategoriesConfig;
+            }
+        }
+
+        function saveCategoriesToLocalStorage() {
+            localStorage.setItem(LOCAL_STORAGE_CATEGORIES_KEY, JSON.stringify(categoriesConfig));
+        }
+
+        // Recursive function to get a category object by its ID from the nested config
+        function getCategoryById(id, config = categoriesConfig) {
+            for (const cat of config) {
+                if (cat.id === id) return cat;
+                if (cat.subCategories) {
+                    const subCat = getCategoryById(id, cat.subCategories); // Recursive call
+                    if (subCat) return subCat;
+                }
+            }
+            return null;
+        }
+
+        // Helper to get the full category object for a section key (e.g., 'trips-eilat-club_hotel')
+        function getCategoryObjectForSectionKey(sectionKey) {
+            const parts = sectionKey.split('-');
+            let currentLevel = categoriesConfig;
+            let foundCat = null;
+
+            for (let i = 0; i < parts.length; i++) {
+                const partId = parts[i];
+                const cat = currentLevel.find(c => c.id === partId);
+                if (cat) {
+                    foundCat = cat;
+                    if (i < parts.length - 1 && cat.subCategories) {
+                        currentLevel = cat.subCategories;
+                    } else {
+                        break;
+                    }
+                } else {
+                    return null; // Part not found in current level
+                }
+            }
+            return foundCat;
+        }
+
         function displayVideos() {
             const videoCategoriesContainer = document.getElementById('videoCategoriesContainer');
             videoCategoriesContainer.innerHTML = '';
 
-            const categories = {};
-            videos.forEach(video => {
-                const mainCategory = video.category;
-                const subCategory = video.subCategory; // Get subCategory if exists
+            const groupedVideos = {};
+            const sectionOrder = [];
 
-                if (mainCategory === 'trips' && subCategory) {
-                    // For 'trips' category, group by subCategory
-                    if (!categories[`trips-${subCategory}`]) {
-                        categories[`trips-${subCategory}`] = [];
+            // Recursive function to initialize groups and build sectionOrder
+            function processCategoriesForDisplay(cats, parentIdPrefix = '') {
+                cats.forEach(cat => {
+                    const currentSectionId = parentIdPrefix ? `${parentIdPrefix}-${cat.id}` : cat.id;
+
+                    // Initialize group for this category
+                    groupedVideos[currentSectionId] = [];
+                    sectionOrder.push(currentSectionId);
+
+                    // If it has sub-categories, process them recursively
+                    if (cat.subCategories && cat.subCategories.length > 0) {
+                        processCategoriesForDisplay(cat.subCategories, currentSectionId);
                     }
-                    categories[`trips-${subCategory}`].push(video);
-                } else {
-                    // For other categories, group by main category
-                    if (!categories[mainCategory]) {
-                        categories[mainCategory] = [];
+                });
+            }
+
+            processCategoriesForDisplay(categoriesConfig); // Start processing from top level
+
+            // Populate groupedVideos with actual video data
+            videos.forEach(video => {
+                const mainCatId = video.category;
+                const subCatId = video.subCategory;
+                const subSubCatId = video.subSubCategory;
+
+                let targetSectionKey = null;
+
+                if (mainCatId) {
+                    if (subSubCatId) {
+                        targetSectionKey = `${mainCatId}-${subCatId}-${subSubCatId}`;
+                    } else if (subCatId) {
+                        targetSectionKey = `${mainCatId}-${subCatId}`;
+                    } else {
+                        targetSectionKey = mainCatId;
                     }
-                    categories[mainCategory].push(video);
+
+                    // Add video to its specific category/sub-category/sub-sub-category group
+                    if (groupedVideos[targetSectionKey]) {
+                        groupedVideos[targetSectionKey].push(video);
+                    }
+
+                    // Also add to higher-level aggregates if applicable
+                    // For 'trips' main category, add all its videos to 'trips-allTrips'
+                    if (mainCatId === 'trips') {
+                        const allTripsSectionKey = 'trips-allTrips';
+                        if (groupedVideos[allTripsSectionKey] && targetSectionKey !== allTripsSectionKey) {
+                            groupedVideos[allTripsSectionKey].push(video);
+                        }
+                    }
                 }
             });
 
-            const categoryOrder = [
-                "greek", "children", "bar-mitzvah",
-                "trips-allTrips", "trips-eilat", "trips-dead_sea", "trips-mano_shipping", "trips-abroad", "trips-north_israel", // Trips subcategories
-                "family", "holidays", "treated", "tiktok", "birthdays", "chef"
-            ];
+            // Filter out sections that have no videos
+            const finalSectionOrder = sectionOrder.filter(key => groupedVideos[key] && groupedVideos[key].length > 0);
 
-            const categoryNames = {
-                "greek": "יוונית",
-                "children": "נכדים",
-                "bar-mitzvah": "בר מצווה",
-                "trips-allTrips": "כל הטיולים",
-                "trips-eilat": "אילת",
-                "trips-dead_sea": "ים המלח",
-                "trips-mano_shipping": "מנו ספנות",
-                "trips-abroad": "חו\"ל",
-                "trips-north_israel": "צפון הארץ",
-                "family": "משפחה",
-                "holidays": "חגים",
-                "treated": "מטופלים",
-                "tiktok": "טיקטוק",
-                "birthdays": "ימי הולדת",
-                "chef": "סרטוני השף"
-            };
-            const categoryIcons = {
-                "greek": "🏛️",
-                "children": "💝",
-                "bar-mitzvah": "🕍",
-                "trips-allTrips": "✈️",
-                "trips-eilat": "☀️", // New icon for Eilat
-                "trips-dead_sea": "🧂", // New icon for Dead Sea
-                "trips-mano_shipping": "🚢", // New icon for Mano Shipping
-                "trips-abroad": "🌍",
-                "trips-north_israel": "⛰️", // New icon for North Israel
-                "family": "👨‍👩‍👧‍👦",
-                "holidays": "🎉",
-                "treated": "🏥",
-                "tiktok": "📱",
-                "birthdays": "🎂",
-                "chef": "👨‍🍳"
-            };
-
-            categoryOrder.forEach(categoryKey => {
-                const categoryVideos = categories[categoryKey];
-                // Filter 'trips' videos if 'trips-allTrips' is the key
-                const currentVideos = (categoryKey === 'trips-allTrips')
-                    ? videos.filter(video => video.category === 'trips')
-                    : categoryVideos;
-
+            finalSectionOrder.forEach(sectionKey => {
+                const currentVideos = groupedVideos[sectionKey];
                 if (currentVideos && currentVideos.length > 0) {
                     const categorySection = document.createElement('div');
-                    categorySection.id = `category-${categoryKey}`;
+                    categorySection.id = `category-${sectionKey}`;
                     categorySection.classList.add('category-section');
+
+                    const sectionCatObj = getCategoryObjectForSectionKey(sectionKey);
+                    let categoryName = '';
+                    let categoryIcon = '';
+
+                    if (sectionCatObj) {
+                        categoryName = sectionCatObj.name;
+                        categoryIcon = sectionCatObj.icon;
+                        // Special handling for 'allTrips' icon override
+                        if (sectionCatObj.id === 'allTrips' && sectionCatObj.iconOverride) {
+                            const tripsMainCat = getCategoryById('trips');
+                            if (tripsMainCat) {
+                                categoryIcon = tripsMainCat.icon;
+                            }
+                        }
+                    } else {
+                        categoryName = sectionKey; // Fallback in case category object not found
+                        categoryIcon = '❓';
+                    }
 
                     const categoryTitle = document.createElement('h2');
                     categoryTitle.classList.add('category-title');
-                    categoryTitle.innerHTML = `<span class="category-icon">${categoryIcons[categoryKey]}</span> ${categoryNames[categoryKey]}`;
+                    categoryTitle.innerHTML = `<span class="category-icon">${categoryIcon}</span> ${categoryName}`;
                     categorySection.appendChild(categoryTitle);
 
                     const videoGallery = document.createElement('div');
@@ -1257,11 +1345,14 @@
                         if (video.subCategory) {
                             videoCard.dataset.subCategory = video.subCategory;
                         }
+                        if (video.subSubCategory) { // Added for sub-sub category
+                            videoCard.dataset.subSubCategory = video.subSubCategory;
+                        }
 
                         videoCard.innerHTML = `
                             <button class="delete-btn" onclick="deleteVideo(${video.id})">✖</button>
                             <button class="edit-btn" onclick="openEditVideoModal(${video.id})">✏️</button>
-                            <img src="${video.thumbnailUrl || 'https://via.placeholder.com/300x180?text=אין+תמונה'}" alt="${video.title}" class="video-thumbnail">
+                            <img src="${video.thumbnailUrl || 'https://placehold.co/300x180/cccccc/333333?text=אין+תמונה'}" alt="${video.title}" class="video-thumbnail">
                             <h3 class="video-title">${video.title}</h3>
                             <p class="video-description">${video.description}</p>
                             <div class="video-actions">
@@ -1278,21 +1369,92 @@
             updateAdminModeDisplay(); // Apply admin mode display after rendering
         }
 
+        function renderCategoryButtons() {
+            const categoryFiltersContainer = document.getElementById('categoryFiltersContainer');
+            categoryFiltersContainer.innerHTML = ''; // Clear existing buttons
+
+            // Add "All" button
+            const allBtn = document.createElement('button');
+            allBtn.classList.add('category-btn', 'active');
+            allBtn.setAttribute('onclick', "showCategory('all')");
+            allBtn.innerHTML = '🎭 הכל';
+            categoryFiltersContainer.appendChild(allBtn);
+
+            categoriesConfig.forEach(mainCat => {
+                if (mainCat.subCategories && mainCat.subCategories.length > 0) {
+                    // Create dropdown for main categories with sub-categories (like "טיולים")
+                    const dropdownDiv = document.createElement('div');
+                    dropdownDiv.classList.add('dropdown');
+                    dropdownDiv.id = `${mainCat.id}Dropdown`;
+
+                    const mainBtn = document.createElement('button');
+                    mainBtn.classList.add('category-btn', 'trips-btn'); // Using trips-btn class for general dropdown styling
+                    mainBtn.setAttribute('onclick', `toggleTripsDropdown(event, '${mainCat.id}Dropdown')`);
+                    mainBtn.innerHTML = `${mainCat.icon} ${mainCat.name}`;
+                    dropdownDiv.appendChild(mainBtn);
+
+                    const dropdownContent = document.createElement('div');
+                    dropdownContent.classList.add('dropdown-content');
+
+                    mainCat.subCategories.forEach(subCat => {
+                        const subLink = document.createElement('a');
+                        subLink.href = '#';
+                        subLink.setAttribute('onclick', `showCategory('${mainCat.id}', '${subCat.id}'); return false;`);
+                        subLink.textContent = subCat.name;
+                        dropdownContent.appendChild(subLink);
+                    });
+                    dropdownDiv.appendChild(dropdownContent);
+                    categoryFiltersContainer.appendChild(dropdownDiv);
+
+                } else {
+                    // Create regular button for main categories without sub-categories
+                    const btn = document.createElement('button');
+                    btn.classList.add('category-btn');
+                    btn.setAttribute('onclick', `showCategory('${mainCat.id}')`);
+                    btn.innerHTML = `${mainCat.icon} ${mainCat.name}`;
+                    categoryFiltersContainer.appendChild(btn);
+                }
+            });
+        }
+
         function showCategory(category, subCategory = null) {
             const categorySections = document.querySelectorAll('.category-section');
             categorySections.forEach(section => {
                 let shouldShow = false;
+                const sectionId = section.id; // e.g., 'category-greek', 'category-trips-eilat', 'category-trips-eilat-club_hotel'
+
                 if (category === 'all') {
-                    shouldShow = true;
-                } else if (category === 'trips' && subCategory === 'allTrips') {
-                    // Show all videos under 'trips' main category
-                    shouldShow = section.id.startsWith('category-trips-');
+                    // When 'all' is selected:
+                    // Show all main categories (e.g., 'greek', 'family', 'chef')
+                    // And show the main 'trips' category section (e.g., 'category-trips-allTrips')
+                    // Hide all other specific sub-categories (e.g., 'category-trips-eilat', 'category-trips-eilat-club_hotel')
+                    const parts = sectionId.split('-');
+                    if (parts.length === 2) { // Main category section (e.g., 'category-greek')
+                        const mainCatId = parts[1];
+                        const mainCatObj = getCategoryById(mainCatId);
+                        if (mainCatObj && mainCatObj.type === 'main' && mainCatId !== 'trips') {
+                            shouldShow = true;
+                        }
+                    } else if (parts.length === 3 && parts[1] === 'trips' && parts[2] === 'allTrips') {
+                        // Explicitly show 'category-trips-allTrips'
+                        shouldShow = true;
+                    }
                 } else if (subCategory) {
-                    // Show specific subcategory under 'trips'
-                    shouldShow = section.id === `category-${category}-${subCategory}`;
+                    // If a specific sub-category is selected (e.g., 'trips', 'eilat')
+                    // Show this specific sub-category section AND its direct sub-sub-categories if they exist
+                    const selectedSectionPrefix = `category-${category}-${subCategory}`;
+                    if (sectionId === selectedSectionPrefix) { // Show the selected sub-category itself
+                        shouldShow = true;
+                    } else if (sectionId.startsWith(selectedSectionPrefix + '-')) { // Show its direct children (sub-sub-categories)
+                        const parts = sectionId.split('-');
+                        if (parts.length === 4 && parts[0] === 'category' && parts[1] === category && parts[2] === subCategory) {
+                            shouldShow = true;
+                        }
+                    }
                 } else {
-                    // Show other main categories
-                    shouldShow = section.id === `category-${category}`;
+                    // Show specific main category (e.g., 'greek')
+                    // This also handles cases where a main category has sub-categories but none are selected (e.g., 'trips' button itself)
+                    shouldShow = sectionId === `category-${category}`;
                 }
 
                 if (shouldShow) {
@@ -1311,33 +1473,50 @@
             // Handle main category buttons
             if (category === 'all') {
                 document.querySelector(`.category-btn[onclick="showCategory('all')"]`).classList.add('active');
-            } else if (category !== 'trips') { // For non-trips main categories
-                const mainBtn = document.querySelector(`.category-btn[onclick="showCategory('${category}')"]`);
-                if (mainBtn) mainBtn.classList.add('active');
-            } else if (category === 'trips') { // For trips category, activate the trips button
-                document.querySelector('.trips-btn').classList.add('active');
+            } else {
+                // Find the main button for the selected category or its parent
+                let activeBtnFound = false;
+                categoriesConfig.forEach(mainCat => {
+                    if (mainCat.id === category) {
+                        const btn = document.querySelector(`.category-btn[onclick="showCategory('${mainCat.id}')"]`);
+                        if (btn) {
+                            btn.classList.add('active');
+                            activeBtnFound = true;
+                        }
+                    } else if (mainCat.subCategories && mainCat.subCategories.some(s => s.id === subCategory && mainCat.id === category)) {
+                        // If a sub-category is selected, activate its parent main category button
+                        const parentBtn = document.querySelector(`.category-btn[onclick*="toggleTripsDropdown(event, '${mainCat.id}Dropdown')"]`);
+                        if (parentBtn) {
+                            parentBtn.classList.add('active');
+                            activeBtnFound = true;
+                        }
+                    }
+                });
             }
 
-            // Close the trips dropdown if open and a subcategory is selected or 'all' is clicked
-            const tripsDropdown = document.getElementById('tripsDropdown');
-            if (tripsDropdown && tripsDropdown.classList.contains('show') && (subCategory || category === 'all')) {
-                tripsDropdown.classList.remove('show');
+            // Close all dropdowns
+            const dropdowns = document.getElementsByClassName("dropdown-content");
+            for (let i = 0; i < dropdowns.length; i++) {
+                const openDropdown = dropdowns[i];
+                if (openDropdown.parentElement.classList.contains('show')) {
+                    openDropdown.parentElement.classList.remove('show');
+                }
             }
         }
 
-        function toggleTripsDropdown(event) {
+        function toggleTripsDropdown(event, dropdownId) {
             event.stopPropagation(); // Prevent click from propagating to window and closing immediately
-            document.getElementById('tripsDropdown').classList.toggle('show');
+            document.getElementById(dropdownId).classList.toggle('show');
 
             // Deactivate other main category buttons when trips dropdown is toggled
             const categoryBtns = document.querySelectorAll('.category-btn');
             categoryBtns.forEach(btn => {
-                if (!btn.classList.contains('trips-btn')) {
+                if (!btn.closest('.dropdown') || btn.closest('.dropdown').id !== dropdownId) {
                      btn.classList.remove('active');
                 }
             });
             // Ensure the trips button itself is active when its dropdown is open
-            document.querySelector('.trips-btn').classList.add('active');
+            document.querySelector(`#${dropdownId} > .category-btn`).classList.add('active');
         }
 
 
@@ -1370,6 +1549,7 @@
                 document.body.classList.add('admin-mode'); // Add class to body to show delete/edit buttons
                 closeAdminLoginModal();
                 updateAdminModeDisplay();
+                populateCategoryDropdowns(); // Re-populate dropdowns in admin forms
                 // Replace alert with custom modal message if preferred
                 const messageBox = document.createElement('div');
                 messageBox.className = 'modal';
@@ -1440,20 +1620,123 @@
             const form = document.getElementById('addVideoForm');
             form.classList.toggle('active');
             document.getElementById('backgroundSettingsForm').classList.remove('active'); // Hide other form
-             // Reset subCategory dropdown visibility when opening add video form
+            document.getElementById('manageCategoriesModal').style.display = 'none'; // Hide categories form
+            populateCategoryDropdowns(); // Re-populate dropdowns
+            // Reset subCategory dropdown visibility when opening add video form
             document.getElementById('subCategoryGroup').style.display = 'none';
             document.getElementById('videoSubCategory').value = '';
+            document.getElementById('subSubCategoryGroup').style.display = 'none'; // Reset sub-sub-category
+            document.getElementById('videoSubSubCategory').value = '';
         }
 
-        function handleCategoryChange(category, formType = 'add') {
+        function populateCategoryDropdowns() {
+            const videoCategorySelect = document.getElementById('videoCategory');
+            const editVideoCategorySelect = document.getElementById('editVideoCategory');
+            const parentCategorySelect = document.getElementById('parentCategorySelect');
+
+            // Clear existing options
+            videoCategorySelect.innerHTML = '';
+            editVideoCategorySelect.innerHTML = '';
+            parentCategorySelect.innerHTML = '';
+
+            // Add default "בחר קטגוריה" option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'בחר קטגוריה';
+            videoCategorySelect.appendChild(defaultOption.cloneNode(true));
+            editVideoCategorySelect.appendChild(defaultOption.cloneNode(true));
+
+            // Recursive function to add categories to dropdowns
+            function addCategoriesToDropdown(cats, selectElement, indent = '') {
+                cats.forEach(cat => {
+                    // Exclude 'allTrips' from video assignment dropdowns
+                    if (cat.id === 'allTrips') {
+                        return;
+                    }
+                    const option = document.createElement('option');
+                    option.value = cat.id;
+                    option.textContent = indent + cat.name;
+                    selectElement.appendChild(option);
+                    if (cat.subCategories && cat.subCategories.length > 0) {
+                        addCategoriesToDropdown(cat.subCategories, selectElement, indent + '-- ');
+                    }
+                });
+            }
+
+            addCategoriesToDropdown(categoriesConfig, videoCategorySelect);
+            addCategoriesToDropdown(categoriesConfig, editVideoCategorySelect);
+
+            // Populate parentCategorySelect for manage categories modal
+            const defaultParentOption = document.createElement('option');
+            defaultParentOption.value = '';
+            defaultParentOption.textContent = 'בחר קטגוריית אב';
+            parentCategorySelect.appendChild(defaultParentOption);
+
+            function addCategoriesToParentSelect(cats, indent = '') {
+                cats.forEach(cat => {
+                    // Don't allow 'allTrips' to be a parent, it's an aggregate
+                    if (cat.id === 'allTrips') return;
+
+                    const option = document.createElement('option');
+                    option.value = cat.id;
+                    option.textContent = indent + cat.name;
+                    parentCategorySelect.appendChild(option);
+
+                    if (cat.subCategories && cat.subCategories.length > 0) {
+                        addCategoriesToParentSelect(cat.subCategories, indent + '-- ');
+                    }
+                });
+            }
+            addCategoriesToParentSelect(categoriesConfig);
+        }
+
+        function handleCategoryChange(selectedCategoryId, formType = 'add') {
             const subCategoryGroup = formType === 'add' ? document.getElementById('subCategoryGroup') : document.getElementById('editSubCategoryGroup');
             const subCategorySelect = formType === 'add' ? document.getElementById('videoSubCategory') : document.getElementById('editVideoSubCategory');
+            const subSubCategoryGroup = formType === 'add' ? document.getElementById('subSubCategoryGroup') : document.getElementById('editSubSubCategoryGroup');
+            const subSubCategorySelect = formType === 'add' ? document.getElementById('videoSubSubCategory') : document.getElementById('editVideoSubSubCategory');
 
-            if (category === 'trips') {
+            // Clear and hide sub-category dropdown initially
+            subCategorySelect.innerHTML = '<option value="">בחר תת-קטגוריה</option>';
+            subCategoryGroup.style.display = 'none';
+
+            // Clear and hide sub-sub-category dropdown initially
+            subSubCategorySelect.innerHTML = '<option value="">בחר תת-תת-קטגוריה</option>';
+            subSubCategoryGroup.style.display = 'none';
+
+            const selectedCatObj = getCategoryById(selectedCategoryId);
+
+            if (selectedCatObj && selectedCatObj.subCategories && selectedCatObj.subCategories.length > 0) {
                 subCategoryGroup.style.display = 'block';
-            } else {
-                subCategoryGroup.style.display = 'none';
-                subCategorySelect.value = ''; // Clear subcategory if not trips
+                selectedCatObj.subCategories.forEach(subCat => {
+                    // Exclude 'allTrips' from this dropdown, as it's an aggregate for display, not for video assignment
+                    if (selectedCatObj.id === 'trips' && subCat.id === 'allTrips') {
+                        return;
+                    }
+                    const option = document.createElement('option');
+                    option.value = subCat.id;
+                    option.textContent = subCat.name;
+                    subCategorySelect.appendChild(option);
+                });
+
+                // Add event listener for sub-category change to populate sub-sub-category
+                subCategorySelect.onchange = () => {
+                    const selectedSubCategoryId = subCategorySelect.value;
+                    const selectedSubCatObj = getCategoryById(selectedSubCategoryId);
+
+                    subSubCategorySelect.innerHTML = '<option value="">בחר תת-תת-קטגוריה</option>'; // Clear
+                    subSubCategoryGroup.style.display = 'none'; // Hide by default
+
+                    if (selectedSubCatObj && selectedSubCatObj.subCategories && selectedSubCatObj.subCategories.length > 0) {
+                        subSubCategoryGroup.style.display = 'block';
+                        selectedSubCatObj.subCategories.forEach(subSubCat => {
+                            const option = document.createElement('option');
+                            option.value = subSubCat.id;
+                            option.textContent = subSubCat.name;
+                            subSubCategorySelect.appendChild(option);
+                        });
+                    }
+                };
             }
         }
 
@@ -1466,8 +1749,14 @@
             const category = document.getElementById('videoCategory').value;
             const youtubeLink = document.getElementById('youtubeLink').value;
             const tiktokLink = document.getElementById('tiktokLink').value;
-            const subCategory = (category === 'trips') ? document.getElementById('videoSubCategory').value : '';
+            const subCategory = document.getElementById('videoSubCategory').value;
+            const subSubCategory = document.getElementById('videoSubSubCategory').value;
 
+
+            if (!category) {
+                showMessageModal('שגיאה', 'יש לבחור קטגוריה ראשית.', 'red');
+                return;
+            }
 
             const newVideo = {
                 id: Date.now(),
@@ -1475,7 +1764,8 @@
                 description,
                 thumbnailUrl,
                 category,
-                subCategory, // Save subCategory
+                subCategory: subCategory || null,
+                subSubCategory: subSubCategory || null,
                 youtubeLink,
                 tiktokLink
             };
@@ -1485,58 +1775,17 @@
             displayVideos(); // Re-render videos to include the new one
             document.getElementById('addVideoForm').classList.remove('active'); // Hide form after submission
             event.target.reset(); // Clear form fields
-            // Replace alert with custom modal message if preferred
-            const messageBox = document.createElement('div');
-            messageBox.className = 'modal';
-            messageBox.innerHTML = `
-                <div class="modal-content">
-                    <span class="close" onclick="this.parentElement.parentElement.style.display='none'">×</span>
-                    <h2>הודעה</h2>
-                    <p style="text-align: center;">סרטון נוסף בהצלחה!</p>
-                    <button class="send-btn" onclick="this.parentElement.parentElement.style.display='none'">אישור</button>
-                </div>
-            `;
-            document.body.appendChild(messageBox);
-            messageBox.style.display = 'block';
+            showMessageModal('הודעה', 'סרטון נוסף בהצלחה!', 'green');
         }
 
         function deleteVideo(id) {
-            // Replace confirm with custom modal message if preferred
-            const confirmModal = document.createElement('div');
-            confirmModal.className = 'modal';
-            confirmModal.innerHTML = `
-                <div class="modal-content">
-                    <h2>אישור מחיקה</h2>
-                    <p style="text-align: center;">האם אתה בטוח שברצונך למחוק סרטון זה?</p>
-                    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
-                        <button class="send-btn" style="background: #ff4757;" onclick="performDelete(${id}); this.parentElement.parentElement.parentElement.style.display='none';">מחק</button>
-                        <button class="send-btn" style="background: #6c757d;" onclick="this.parentElement.parentElement.parentElement.style.display='none';">ביטול</button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(confirmModal);
-            confirmModal.style.display = 'block';
+            showConfirmModal('אישור מחיקה', 'האם אתה בטוח שברצונך למחוק סרטון זה?', () => {
+                videos = videos.filter(video => video.id !== id);
+                saveVideosToLocalStorage();
+                displayVideos(); // Re-render videos
+                showMessageModal('הודעה', 'הסרטון נמחק בהצלחה.', 'green');
+            });
         }
-
-        function performDelete(id) {
-            videos = videos.filter(video => video.id !== id);
-            saveVideosToLocalStorage();
-            displayVideos(); // Re-render videos
-            // Replace alert with custom modal message if preferred
-            const messageBox = document.createElement('div');
-            messageBox.className = 'modal';
-            messageBox.innerHTML = `
-                <div class="modal-content">
-                    <span class="close" onclick="this.parentElement.parentElement.style.display='none'">×</span>
-                    <h2>הודעה</h2>
-                    <p style="text-align: center;">הסרטון נמחק בהצלחה.</p>
-                    <button class="send-btn" onclick="this.parentElement.parentElement.style.display='none'">אישור</button>
-                </div>
-            `;
-            document.body.appendChild(messageBox);
-            messageBox.style.display = 'block';
-        }
-
 
         function openEditVideoModal(id) {
             const video = videos.find(v => v.id === id);
@@ -1545,16 +1794,25 @@
                 document.getElementById('editVideoTitle').value = video.title;
                 document.getElementById('editVideoDescription').value = video.description;
                 document.getElementById('editVideoThumbnailUrl').value = video.thumbnailUrl;
-                document.getElementById('editVideoCategory').value = video.category;
-                document.getElementById('editYoutubeLink').value = video.youtubeLink;
-                document.getElementById('editTiktokLink').value = video.tiktokLink;
 
-                // Handle subCategory for edit modal
-                handleCategoryChange(video.category, 'edit');
-                if (video.category === 'trips' && video.subCategory) {
+                // Populate category dropdown and then select the video's category
+                populateCategoryDropdowns(); // Ensure dropdowns are fresh
+                document.getElementById('editVideoCategory').value = video.category;
+
+                // Handle subCategory and subSubCategory for edit modal
+                handleCategoryChange(video.category, 'edit'); // Populate sub-category dropdown based on selected main category
+                if (video.subCategory) {
                     document.getElementById('editVideoSubCategory').value = video.subCategory;
+                    // Manually trigger onchange for subCategory to populate sub-sub-category dropdown
+                    const event = new Event('change');
+                    document.getElementById('editVideoSubCategory').dispatchEvent(event);
                 } else {
                     document.getElementById('editVideoSubCategory').value = '';
+                }
+                if (video.subSubCategory) {
+                    document.getElementById('editVideoSubSubCategory').value = video.subSubCategory;
+                } else {
+                    document.getElementById('editVideoSubSubCategory').value = '';
                 }
 
                 document.getElementById('editVideoModal').style.display = 'block';
@@ -1574,7 +1832,13 @@
             const category = document.getElementById('editVideoCategory').value;
             const youtubeLink = document.getElementById('editYoutubeLink').value;
             const tiktokLink = document.getElementById('editTiktokLink').value;
-            const subCategory = (category === 'trips') ? document.getElementById('editVideoSubCategory').value : '';
+            const subCategory = document.getElementById('editVideoSubCategory').value;
+            const subSubCategory = document.getElementById('editVideoSubSubCategory').value;
+
+            if (!category) {
+                showMessageModal('שגיאה', 'יש לבחור קטגוריה ראשית.', 'red');
+                return;
+            }
 
             const videoIndex = videos.findIndex(v => v.id === id);
             if (videoIndex !== -1) {
@@ -1584,26 +1848,15 @@
                     description,
                     thumbnailUrl,
                     category,
-                    subCategory, // Update subCategory
+                    subCategory: subCategory || null,
+                    subSubCategory: subSubCategory || null,
                     youtubeLink,
                     tiktokLink
                 };
                 saveVideosToLocalStorage();
                 displayVideos();
                 closeEditVideoModal();
-                // Replace alert with custom modal message if preferred
-                const messageBox = document.createElement('div');
-                messageBox.className = 'modal';
-                messageBox.innerHTML = `
-                    <div class="modal-content">
-                        <span class="close" onclick="this.parentElement.parentElement.style.display='none'">×</span>
-                        <h2>הודעה</h2>
-                        <p style="text-align: center;">הסרטון עודכן בהצלחה!</p>
-                        <button class="send-btn" onclick="this.parentElement.parentElement.style.display='none'">אישור</button>
-                    </div>
-                `;
-                document.body.appendChild(messageBox);
-                messageBox.style.display = 'block';
+                showMessageModal('הודעה', 'הסרטון עודכן בהצלחה!', 'green');
             }
         }
 
@@ -1611,6 +1864,7 @@
             const form = document.getElementById('backgroundSettingsForm');
             form.classList.toggle('active');
             document.getElementById('addVideoForm').classList.remove('active'); // Hide other form
+            document.getElementById('manageCategoriesModal').style.display = 'none'; // Hide categories form
         }
 
         function saveBackgroundSettings(event) {
@@ -1628,19 +1882,7 @@
             };
             saveBackgroundSettingsToLocalStorage(settings);
             document.getElementById('backgroundSettingsForm').classList.remove('active');
-            // Replace alert with custom modal message if preferred
-            const messageBox = document.createElement('div');
-            messageBox.className = 'modal';
-            messageBox.innerHTML = `
-                <div class="modal-content">
-                    <span class="close" onclick="this.parentElement.parentElement.style.display='none'">×</span>
-                    <h2>הודעה</h2>
-                    <p style="text-align: center;">הגדרות רקע נשמרו בהצלחה!</p>
-                    <button class="send-btn" onclick="this.parentElement.parentElement.style.display='none'">אישור</button>
-                </div>
-            `;
-            document.body.appendChild(messageBox);
-            messageBox.style.display = 'block';
+            showMessageModal('הודעה', 'הגדרות רקע נשמרו בהצלחה!', 'green');
         }
 
         // Image Cropper Logic
@@ -1695,6 +1937,137 @@
                 currentCropper = null;
             }
             document.getElementById('imageToCrop').src = ''; // Clear image source
+        }
+
+        // Custom Message and Confirm Modals
+        function showMessageModal(title, message, type = 'info') {
+            const messageBox = document.createElement('div');
+            messageBox.className = 'modal';
+            messageBox.innerHTML = `
+                <div class="modal-content">
+                    <span class="close" onclick="this.parentElement.parentElement.remove()">×</span>
+                    <h2>${title}</h2>
+                    <p style="text-align: center; color: ${type === 'error' ? 'red' : type === 'success' ? 'green' : 'black'};">${message}</p>
+                    <button class="send-btn" onclick="this.parentElement.parentElement.remove()">אישור</button>
+                </div>
+            `;
+            document.body.appendChild(messageBox);
+            messageBox.style.display = 'block';
+        }
+
+        function showConfirmModal(title, message, onConfirm) {
+            const confirmModal = document.createElement('div');
+            confirmModal.className = 'modal';
+            confirmModal.innerHTML = `
+                <div class="modal-content">
+                    <h2>${title}</h2>
+                    <p style="text-align: center;">${message}</p>
+                    <div style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
+                        <button class="send-btn" style="background: #ff4757;" onclick="onConfirmCallback(); this.parentElement.parentElement.parentElement.remove();">מחק</button>
+                        <button class="send-btn" style="background: #6c757d;" onclick="this.parentElement.parentElement.parentElement.remove();">ביטול</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmModal);
+            confirmModal.style.display = 'block';
+
+            // Attach the onConfirm callback to a global function to be called from inline HTML
+            window.onConfirmCallback = onConfirm;
+        }
+
+        // New Category Management Functions
+        function openManageCategoriesModal() {
+            document.getElementById('manageCategoriesModal').style.display = 'block';
+            document.getElementById('addVideoForm').classList.remove('active'); // Hide other form
+            document.getElementById('backgroundSettingsForm').classList.remove('active'); // Hide other form
+            populateCategoryDropdowns(); // Populate parent category dropdown
+            toggleParentCategoryDropdown(); // Set initial state of parent category dropdown
+        }
+
+        function closeManageCategoriesModal() {
+            document.getElementById('manageCategoriesModal').style.display = 'none';
+            document.getElementById('newCategoryName').value = '';
+            document.getElementById('newCategoryId').value = '';
+            document.getElementById('newCategoryIcon').value = '';
+            document.getElementById('categoryTypeMain').checked = true; // Reset to main
+            toggleParentCategoryDropdown(); // Hide parent dropdown
+        }
+
+        function toggleParentCategoryDropdown() {
+            const categoryType = document.querySelector('input[name="newCategoryType"]:checked').value;
+            const parentGroup = document.getElementById('parentCategorySelectGroup');
+            if (categoryType === 'sub') {
+                parentGroup.style.display = 'block';
+            } else {
+                parentGroup.style.display = 'none';
+            }
+        }
+
+        function addNewCategory(event) {
+            event.preventDefault();
+            const categoryType = document.querySelector('input[name="newCategoryType"]:checked').value;
+            const newCategoryName = document.getElementById('newCategoryName').value;
+            const newCategoryId = document.getElementById('newCategoryId').value.toLowerCase().replace(/\s/g, '_');
+            const newCategoryIcon = document.getElementById('newCategoryIcon').value;
+            const parentCategoryId = document.getElementById('parentCategorySelect').value;
+
+            // Check for duplicate ID (recursive check)
+            const isDuplicateId = getCategoryById(newCategoryId);
+            if (isDuplicateId) {
+                showMessageModal('שגיאה', 'מזהה קטגוריה כבר קיים. אנא בחר מזהה ייחודי.', 'red');
+                return;
+            }
+
+            if (categoryType === 'main') {
+                categoriesConfig.push({
+                    id: newCategoryId,
+                    name: newCategoryName,
+                    icon: newCategoryIcon,
+                    type: 'main',
+                    subCategories: []
+                });
+            } else { // sub-category (can be sub-sub etc.)
+                if (!parentCategoryId) {
+                    showMessageModal('שגיאה', 'יש לבחור קטגוריית אב לתת-הקטגוריה.', 'red');
+                    return;
+                }
+
+                // Find the parent category object recursively and add the new sub-category
+                const findParentAndAddSub = (cats, newSubCat) => {
+                    for (const cat of cats) {
+                        if (cat.id === parentCategoryId) {
+                            if (!cat.subCategories) {
+                                cat.subCategories = []; // Initialize if not exists
+                            }
+                            cat.subCategories.push(newSubCat);
+                            return true;
+                        }
+                        if (cat.subCategories && findParentAndAddSub(cat.subCategories, newSubCat)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+
+                const newSubCat = {
+                    id: newCategoryId,
+                    name: newCategoryName,
+                    icon: newCategoryIcon,
+                    type: 'sub' // All nested categories are 'sub' type
+                };
+
+                if (!findParentAndAddSub(categoriesConfig, newSubCat)) {
+                    showMessageModal('שגיאה', 'קטגוריית אב לא נמצאה.', 'red');
+                    return;
+                }
+            }
+
+            saveCategoriesToLocalStorage();
+            renderCategoryButtons();
+            displayVideos();
+            populateCategoryDropdowns();
+            closeManageCategoriesModal();
+            showMessageModal('הודעה', 'קטגוריה נוספה בהצלחה!', 'green');
         }
     </script>
 </body>
