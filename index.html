@@ -600,52 +600,69 @@
                 padding: 20px;
             }
         }
-        
-        /* --- SOCIAL ICONS NEW CSS --- */
         .social-icons {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 50%; /* מרכז לפי הגובה */
+            transform: translateY(-50%); /* מרכז בדיוק */
+            width: 100%;
             display: flex;
-            gap: 15px;
-            z-index: 2; /* כדי לוודא שהם מעל אלמנטים אחרים */
+            justify-content: space-between; /* מפזר בין הקצוות */
+            padding: 0 40px; /* מרווח מהקצוות */
+            z-index: 2;
+            pointer-events: none; /* מונע בעיות עם לחיצות */
         }
 
-        .social-icons a {
-            color: white; /* צבע לבן לאייקונים על רקע צבעוני */
-            font-size: 35px; /* גודל האייקון */
-            transition: transform 0.3s ease, color 0.3s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+            .social-icons a {
+                pointer-events: auto; /* מאפשר לחיצה על האייקונים בלבד */
+                color: white; /* צבע לבן לאייקונים על רקע צבעוני */
+                font-size: 100px; /* גודל האייקון */
+                transition: transform 0.3s ease, color 0.3s ease;
+                text-decoration: none;
+                display: flex;
+                flex-direction: column; /* מסדר את האייקון והטקסט אחד מתחת לשני */
+                align-items: center;
+                justify-content: center;
+                gap: 8px; /* מרווח בין האייקון לטקסט */
+            }
 
-        .social-icons a:hover {
-            transform: translateY(-3px) scale(1.1); /* אפקט הובר */
-        }
+                .social-icons a:hover {
+                    transform: translateY(-3px) scale(1.1); /* אפקט הובר */
+                }
 
-        /* צבעים ספציפיים לאייקונים בהובר */
-        .social-icons .fa-instagram:hover {
-            color: #E1306C; /* צבע אינסטגרם מקורי */
-        }
+                .social-icons a .social-text {
+                    font-size: 12px;
+                    text-align: center;
+                    line-height: 1.2;
+                    max-width: 120px; /* שנה מ-80px ל-120px */
+                    word-wrap: break-word; /* הוסף את השורה הזו */
+                    font-family: Arial, sans-serif;
+                    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+                }
 
-        .social-icons .fa-tiktok:hover {
-            color: #000; /* צבע טיקטוק מקורי (שחור) */
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.5); /* צל לבן קל לטיקטוק */
-        }
+            /* צבעים ספציפיים לאייקונים בהובר */
+            .social-icons .fa-instagram:hover {
+                color: #E1306C; /* צבע אינסטגרם מקורי */
+            }
+
+            .social-icons .fa-tiktok:hover {
+                color: #000; /* צבע טיקטוק מקורי (שחור) */
+                text-shadow: 1px 1px 2px rgba(255,255,255,0.5); /* צל לבן קל לטיקטוק */
+            }
 
         /* התאמות רספונסיביות לאייקונים */
         @media (max-width: 768px) {
             .social-icons {
-                top: 15px;
-                right: 15px;
-                gap: 10px;
+                position: static; /* מבטל את המיקום המוחלט במובייל */
+                transform: none;
+                width: auto;
+                justify-content: center;
+                padding: 10px;
+                gap: 20px;
             }
 
-            .social-icons a {
-                font-size: 28px;
-            }
+                .social-icons a {
+                    font-size: 28px;
+                }
         }
     </style>
 </head>
@@ -656,9 +673,13 @@
             <button class="admin-btn" onclick="showAdminLogin()">🔧 מנהל</button>
             <div class="social-icons">
                 <a href="https://www.instagram.com/asher_levy_1955?igsh=c2pxZXV6ZjIycnUx" target="_blank" aria-label="Instagram">
-                    <i class="fab fa-instagram"></i> </a>
+                    <i class="fab fa-instagram"></i>
+                    <span class="social-text">לעמוד האינסטגרם</span>
+                </a>
                 <a href="https://www.tiktok.com/@frw5yfrw5y?_t=ZS-8wp8xDgd6EC&_r=1" target="_blank" aria-label="TikTok">
-                    <i class="fab fa-tiktok"></i> </a>
+                    <i class="fab fa-tiktok"></i>
+                    <span class="social-text">לעמוד הטיקטוק</span>
+                </a>
             </div>
             <h1>🎬 אתר הסרטונים של אשר לוי 🎬</h1>
             <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Z0I+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiByeD0iNzUiIGZpbGw9IiNmZjZiNmIiLz4KPHN2ZyB4PSIzNSIgeT0iMzAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI5MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0xMiAyQzEzLjEgMiAxNCAyLjkgMTQgNFYxMEgxNkMxNi42IDEwIDE3IDEwLjQgMTcgMTFWMTJIMjBDMjAuNiAxMiAyMSAxMi40IDIxIDEzVjE5QzIxIDE5LjYgMjAuNiAyMCAyMCAyMEgxM1YyMkg4VjIwSDRWMzRDMyAzLjQgMyAzIDE5LjYgMyAxOVYxM0Mz thyme:3 12.N4 3.N4 12 4 12H7V11F7 7.N4 7.N4 10 8 10H10F4Q10 2.N9 10.N9 2 12 2ZM4 20H13L13 22V20L20 20V13H21L12 12H10.N9V4V10V4H3V20ZCIvPgo8L3N2Zz4KPHRleHQgeD0iNzUiIHk9IjEzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QnJldmFsPC90ZXh0Pgo8L3N2Zz4=" alt="סבא אשר לוי" class="grandpa-photo">
