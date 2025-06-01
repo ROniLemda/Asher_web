@@ -22,8 +22,10 @@
             padding: 20px;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            background-size: auto; /* יאופס ויוגדר ע"י JS */
-            background-position: left bottom, right bottom; /* יאופס ויוגדר ע"י JS */
+            background-size: auto;
+            /* יאופס ויוגדר ע"י JS */
+            background-position: left bottom, right bottom;
+            /* יאופס ויוגדר ע"י JS */
         }
 
         .container {
@@ -49,16 +51,16 @@
             position: relative;
         }
 
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
+            .header h1 {
+                font-size: 2.5rem;
+                margin-bottom: 10px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
 
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
+            .header p {
+                font-size: 1.2rem;
+                opacity: 0.9;
+            }
 
         .admin-btn {
             position: absolute;
@@ -74,10 +76,10 @@
             transition: all 0.3s ease;
         }
 
-        .admin-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
+            .admin-btn:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: scale(1.05);
+            }
 
         .grandpa-photo {
             width: 150px;
@@ -103,10 +105,10 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .gift-note:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
-        }
+            .gift-note:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+            }
 
         .youtube-section {
             margin-bottom: 40px;
@@ -125,10 +127,10 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .youtube-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
-        }
+            .youtube-link:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
+            }
 
         .category-filters {
             display: flex;
@@ -150,11 +152,71 @@
             font-weight: bold;
         }
 
-        .category-btn:hover, .category-btn.active {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-            background: linear-gradient(45deg, #764ba2, #667eea);
+            .category-btn:hover,
+            .category-btn.active {
+                transform: translateY(-3px);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+                background: linear-gradient(45deg, #764ba2, #667eea);
+            }
+
+            /* --- תוספות עבור תפריט משנה לטיולים --- */
+            .category-btn.has-submenu {
+                position: relative;
+                /* כדי שהתפריט ייפתח ביחס לכפתור */
+            }
+
+        .submenu-trips {
+            display: none;
+            /* מוסתר כברירת מחדל */
+            position: absolute;
+            /* מיקום יחסי לכפתור הטיולים */
+            background-color: #fff;
+            /* רקע לבן לתפריט המשנה */
+            min-width: 200px;
+            /* רוחב מינימלי */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            /* צל עדין */
+            z-index: 100;
+            /* לוודא שהוא מעל אלמנטים אחרים */
+            border-radius: 8px;
+            padding: 10px 0;
+            text-align: right;
+            /* יישור לימין עבור עברית */
+            top: 100%;
+            /* ממוקם מתחת לכפתור האב */
+            right: 0;
+            /* יישור לימין של כפתור האב */
+            margin-top: 5px;
+            /* מרווח קטן מהכפתור */
+            list-style: none;
+            /* הסר נקודות מרשימה */
         }
+
+            .submenu-trips li a {
+                color: #333;
+                /* צבע טקסט */
+                padding: 12px 20px;
+                text-decoration: none;
+                display: block;
+                font-size: 0.95rem;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+
+                .submenu-trips li a:hover {
+                    background-color: #f1f1f1;
+                    /* רקע בהובר */
+                    color: #667eea;
+                    /* צבע טקסט בהובר */
+                }
+
+        /* הצג את התפריט כשהכפתור "טיולים" פעיל או בהובר */
+        .category-btn.has-submenu.active .submenu-trips,
+        .category-btn.has-submenu:hover .submenu-trips {
+            display: block;
+        }
+
+        /* --- סוף תוספות עבור תפריט משנה לטיולים --- */
+
 
         .category-section {
             margin-bottom: 50px;
@@ -188,11 +250,11 @@
             position: relative;
         }
 
-        .video-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            border-color: #667eea;
-        }
+            .video-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+                border-color: #667eea;
+            }
 
         .video-thumbnail {
             width: 100%;
@@ -236,10 +298,10 @@
             display: inline-block;
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        }
+            .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            }
 
         .btn-youtube {
             background: linear-gradient(45deg, #ff0000, #cc0000);
@@ -249,7 +311,8 @@
             background: linear-gradient(45deg, #000000, #333333);
         }
 
-        .delete-btn, .edit-btn {
+        .delete-btn,
+        .edit-btn {
             position: absolute;
             top: 10px;
             width: 30px;
@@ -372,9 +435,9 @@
             transition: color 0.3s ease;
         }
 
-        .close:hover {
-            color: #000;
-        }
+            .close:hover {
+                color: #000;
+            }
 
         .modal h2 {
             text-align: center;
@@ -387,35 +450,35 @@
             margin-bottom: 20px;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: bold;
-        }
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                color: #333;
+                font-weight: bold;
+            }
 
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                width: 100%;
+                padding: 12px;
+                border: 2px solid #ddd;
+                border-radius: 10px;
+                font-size: 1rem;
+                transition: border-color 0.3s ease;
+            }
 
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
+                .form-group input:focus,
+                .form-group textarea:focus,
+                .form-group select:focus {
+                    outline: none;
+                    border-color: #667eea;
+                }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
+            .form-group textarea {
+                resize: vertical;
+                min-height: 100px;
+            }
 
         .send-btn {
             background: linear-gradient(45deg, #667eea, #764ba2);
@@ -429,10 +492,10 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .send-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        }
+            .send-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            }
 
         .admin-panel {
             background: linear-gradient(45deg, #ff9f43, #feca57);
@@ -444,9 +507,9 @@
             display: none;
         }
 
-        .admin-panel.active {
-            display: block;
-        }
+            .admin-panel.active {
+                display: block;
+            }
 
         .admin-controls {
             display: flex;
@@ -455,21 +518,21 @@
             margin-bottom: 20px;
         }
 
-        .admin-controls button {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
+            .admin-controls button {
+                background: linear-gradient(45deg, #667eea, #764ba2);
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 1rem;
+                transition: all 0.3s ease;
+            }
 
-        .admin-controls button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        }
+                .admin-controls button:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+                }
 
         .add-video-form {
             background: white;
@@ -479,9 +542,9 @@
             display: none;
         }
 
-        .add-video-form.active {
-            display: block;
-        }
+            .add-video-form.active {
+                display: block;
+            }
 
         .background-settings-form {
             background: white;
@@ -491,31 +554,31 @@
             display: none;
         }
 
-        .background-settings-form.active {
-            display: block;
-        }
+            .background-settings-form.active {
+                display: block;
+            }
 
-        .background-settings-form .form-group.radio-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
-            align-items: center;
-        }
+            .background-settings-form .form-group.radio-group {
+                display: flex;
+                gap: 15px;
+                margin-top: 10px;
+                align-items: center;
+            }
 
-        .background-settings-form .form-group.radio-group label {
-            margin-bottom: 0;
-            display: inline-block;
-        }
+                .background-settings-form .form-group.radio-group label {
+                    margin-bottom: 0;
+                    display: inline-block;
+                }
 
-        .background-settings-form .form-group.radio-group input[type="radio"] {
-            width: auto;
-            margin-left: 5px;
-        }
+                .background-settings-form .form-group.radio-group input[type="radio"] {
+                    width: auto;
+                    margin-left: 5px;
+                }
 
-        .background-settings-form input[type="number"] {
-            width: auto;
-            padding: 8px;
-        }
+            .background-settings-form input[type="number"] {
+                width: auto;
+                padding: 8px;
+            }
 
         /* חדש: סגנונות למודאל החיתוך */
         .crop-modal-content {
@@ -528,13 +591,14 @@
             overflow: hidden;
             background: #f7f7f7;
             margin-bottom: 20px;
-            direction: ltr; /* Cropper.js עובד טוב יותר ב-LTR */
+            direction: ltr;
+            /* Cropper.js עובד טוב יותר ב-LTR */
         }
 
-        .img-container img {
-            max-width: 100%;
-            display: block;
-        }
+            .img-container img {
+                max-width: 100%;
+                display: block;
+            }
 
         .crop-controls {
             display: flex;
@@ -543,29 +607,29 @@
             margin-top: 20px;
         }
 
-        .crop-controls button {
-            background: linear-gradient(45deg, #28a745, #218838);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+            .crop-controls button {
+                background: linear-gradient(45deg, #28a745, #218838);
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                font-size: 1rem;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
 
-        .crop-controls button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
-        }
+                .crop-controls button:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
+                }
 
-        .crop-controls .cancel-btn {
-            background: linear-gradient(45deg, #dc3545, #c82333);
-        }
+            .crop-controls .cancel-btn {
+                background: linear-gradient(45deg, #dc3545, #c82333);
+            }
 
-        .crop-controls .cancel-btn:hover {
-            box-shadow: 0 8px 20px rgba(220, 53, 69, 0.4);
-        }
+                .crop-controls .cancel-btn:hover {
+                    box-shadow: 0 8px 20px rgba(220, 53, 69, 0.4);
+                }
 
         @media (max-width: 768px) {
             .container {
@@ -600,59 +664,77 @@
                 padding: 20px;
             }
         }
+
         .social-icons {
             position: absolute;
-            top: 50%; /* מרכז לפי הגובה */
-            transform: translateY(-50%); /* מרכז בדיוק */
+            top: 50%;
+            /* מרכז לפי הגובה */
+            transform: translateY(-50%);
+            /* מרכז בדיוק */
             width: 100%;
             display: flex;
-            justify-content: space-between; /* מפזר בין הקצוות */
-            padding: 0 40px; /* מרווח מהקצוות */
+            justify-content: space-between;
+            /* מפזר בין הקצוות */
+            padding: 0 40px;
+            /* מרווח מהקצוות */
             z-index: 2;
-            pointer-events: none; /* מונע בעיות עם לחיצות */
+            pointer-events: none;
+            /* מונע בעיות עם לחיצות */
         }
 
             .social-icons a {
-                pointer-events: auto; /* מאפשר לחיצה על האייקונים בלבד */
-                color: white; /* צבע לבן לאייקונים על רקע צבעוני */
-                font-size: 100px; /* גודל האייקון */
+                pointer-events: auto;
+                /* מאפשר לחיצה על האייקונים בלבד */
+                color: white;
+                /* צבע לבן לאייקונים על רקע צבעוני */
+                font-size: 100px;
+                /* גודל האייקון */
                 transition: transform 0.3s ease, color 0.3s ease;
                 text-decoration: none;
                 display: flex;
-                flex-direction: column; /* מסדר את האייקון והטקסט אחד מתחת לשני */
+                flex-direction: column;
+                /* מסדר את האייקון והטקסט אחד מתחת לשני */
                 align-items: center;
                 justify-content: center;
-                gap: 8px; /* מרווח בין האייקון לטקסט */
+                gap: 8px;
+                /* מרווח בין האייקון לטקסט */
             }
 
                 .social-icons a:hover {
-                    transform: translateY(-3px) scale(1.1); /* אפקט הובר */
+                    transform: translateY(-3px) scale(1.1);
+                    /* אפקט הובר */
                 }
 
                 .social-icons a .social-text {
                     font-size: 12px;
                     text-align: center;
                     line-height: 1.2;
-                    max-width: 120px; /* שנה מ-80px ל-120px */
-                    word-wrap: break-word; /* הוסף את השורה הזו */
+                    max-width: 120px;
+                    /* שנה מ-80px ל-120px */
+                    word-wrap: break-word;
+                    /* הוסף את השורה הזו */
                     font-family: Arial, sans-serif;
-                    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+                    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
                 }
 
             /* צבעים ספציפיים לאייקונים בהובר */
             .social-icons .fa-instagram:hover {
-                color: #E1306C; /* צבע אינסטגרם מקורי */
+                color: #E1306C;
+                /* צבע אינסטגרם מקורי */
             }
 
             .social-icons .fa-tiktok:hover {
-                color: #000; /* צבע טיקטוק מקורי (שחור) */
-                text-shadow: 1px 1px 2px rgba(255,255,255,0.5); /* צל לבן קל לטיקטוק */
+                color: #000;
+                /* צבע טיקטוק מקורי (שחור) */
+                text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+                /* צל לבן קל לטיקטוק */
             }
 
         /* התאמות רספונסיביות לאייקונים */
         @media (max-width: 768px) {
             .social-icons {
-                position: static; /* מבטל את המיקום המוחלט במובייל */
+                position: static;
+                /* מבטל את המיקום המוחלט במובייל */
                 transform: none;
                 width: auto;
                 justify-content: center;
@@ -672,7 +754,8 @@
         <div class="header">
             <button class="admin-btn" onclick="showAdminLogin()">מנהל 🔧</button>
             <div class="social-icons">
-                <a href="https://www.instagram.com/asher_levy_1955?igsh=c2pxZXV6ZjIycnUx" target="_blank" aria-label="Instagram">
+                <a href="https://www.instagram.com/asher_levy_1955?igsh=c2pxZXV6ZjIycnUx" target="_blank"
+                   aria-label="Instagram">
                     <i class="fab fa-instagram"></i>
                     <span class="social-text">לעמוד האינסטגרם</span>
                 </a>
@@ -682,7 +765,8 @@
                 </a>
             </div>
             <h1>🎬 אתר הסרטונים של אשר לוי 🎬</h1>
-            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Z0I+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiByeD0iNzUiIGZpbGw9IiNmZjZiNmIiLz4KPHN2ZyB4PSIzNSIgeT0iMzAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI5MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0xMiAyQzEzLjEgMiAxNCAyLjkgMTQgNFYxMEgxNkMxNi42IDEwIDE3IDEwLjQgMTcgMTFWMTJIMjBDMjAuNiAxMiAyMSAxMi40IDIxIDEzVjE5QzIxIDE5LjYgMjAuNiAyMCAyMCAyMEgxM1YyMkg4VjIwSDRWMzRDMyAzLjQgMyAzIDE5LjYgMyAxOVYxM0Mz thyme:3 12.N4 3.N4 12 4 12H7V11F7 7.N4 7.N4 10 8 10H10F4Q10 2.N9 10.N9 2 12 2ZM4 20H13L13 22V20L20 20V13H21L12 12H10.N9V4V10V4H3V20ZCIvPgo8L3N2Zz4KPHRleHQgeD0iNzUiIHk9IjEzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QnJldmFsPC90ZXh0Pgo8L3N2Zz4=" alt="סבא אשר לוי" class="grandpa-photo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Z0I+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiByeD0iNzUiIGZpbGw9IiNmZjZiNmIiLz4KPHN2ZyB4PSIzNSIgeT0iMzAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI5MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9MTAyIDJDMzEgMjIgMTQgMi45IDE0IDRWMTBIOBDE2QzYxNi42IDEwIDE3IDEwLjQgMTcgMTFWMTJIMjBDMjAuNiAxMiAyMSAxMi40IDIxIDEzVjE5QzIxIDE5LjYgMjAuNiAyMCAyMCAyMEgxM1YyMkg4VjIwSDRWMzRDMyAzLjQgMyAzIDE5LjYgMyAxOVYxM0Mz thyme:3 12.N4 3.N4 12 4 12H7V11F7 7.N4 7.N4 10 8 10H10F4Q10 2.N9 10.N9 2 12 2ZM4 20H13L13 22V20L20 20V13H21L12 12H10.N9V4V10V4H3V20ZCIvPgo8L3N2Zz4KPHRleHQgeD0iNzUiIHk9IjEzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QnJldmFsPC90ZXh0Pgo8L3N2Zz4="
+                 alt="סבא אשר לוי" class="grandpa-photo">
             <p>זיכרונות יקרים מרגעים מאושרים</p>
         </div>
 
@@ -692,7 +776,8 @@
                 <button onclick="toggleAddVideoForm()">➕ הוסף סרטון</button>
                 <button onclick="toggleDeleteMode()">🗑️ מצב מחיקה</button>
                 <button onclick="exitAdmin()">🚪 יציאה</button>
-                <input type="file" id="profileImageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(event, 'profile')">
+                <input type="file" id="profileImageUpload" accept="image/*" style="display: none;"
+                       onchange="handleImageUpload(event, 'profile')">
                 <button onclick="document.getElementById('profileImageUpload').click()">📷 שנה תמונת פרופיל</button>
                 <button onclick="toggleBackgroundSettingsForm()">🖼️ תמונות רקע</button>
             </div>
@@ -745,13 +830,15 @@
                     <div class="form-group">
                         <label for="bgImageUrlLeft">תמונת רקע - צד שמאל:</label>
                         <input type="text" id="bgImageUrlLeft" placeholder="הזן URL או השתמש בכפתור למטה" readonly>
-                        <input type="file" id="bgImageUrlUploadLeft" accept="image/*" style="margin-top: 10px;" onchange="handleImageUpload(event, 'backgroundLeft')">
+                        <input type="file" id="bgImageUrlUploadLeft" accept="image/*" style="margin-top: 10px;"
+                               onchange="handleImageUpload(event, 'backgroundLeft')">
                         <small>מומלץ תמונה עם רקע שקוף (PNG). העלאת קובץ תפתח כלי חיתוך.</small>
                     </div>
                     <div class="form-group">
                         <label for="bgImageUrlRight">תמונת רקע - צד ימין (אופציונלי):</label>
                         <input type="text" id="bgImageUrlRight" placeholder="הזן URL או השתמש בכפתור למטה" readonly>
-                        <input type="file" id="bgImageUrlUploadRight" accept="image/*" style="margin-top: 10px;" onchange="handleImageUpload(event, 'backgroundRight')">
+                        <input type="file" id="bgImageUrlUploadRight" accept="image/*" style="margin-top: 10px;"
+                               onchange="handleImageUpload(event, 'backgroundRight')">
                         <small>תמונה זו תוצג רק אם נבחר "שניהם" במיקום.</small>
                     </div>
                     <div class="form-group">
@@ -779,12 +866,12 @@
 
         <div class="gift-note" onclick="openEmailModal()">
             <strong>מנהל האתר</strong><br>
-           <small>לחץ כאן ליצירת קשר, לדווח על תקלות באתר, וליצור קשר עם המנהל</small>
+            <small>לחץ כאן ליצירת קשר, לדווח על תקלות באתר, וליצור קשר עם המנהל</small>
         </div>
 
         <div class="youtube-section">
             <a href="https://www.youtube.com/@%D7%90%D7%A9%D7%A8%D7%9C%D7%95%D7%99-%D7%A02%D7%99" target="_blank" class="youtube-link">
-                 לערוץ היוטיוב המלא של אשר 📺
+                לערוץ היוטיוב המלא של אשר 📺
             </a>
         </div>
 
@@ -793,7 +880,15 @@
             <button class="category-btn" onclick="showCategory('greek')">🏛️ יוונית</button>
             <button class="category-btn" onclick="showCategory('children')">💝 נכדים</button>
             <button class="category-btn" onclick="showCategory('bar-mitzvah')">🕍 ברי מצווה</button>
-            <button class="category-btn" onclick="showCategory('trips')">✈️ טיולים</button>
+            <button class="category-btn has-submenu" onclick="toggleTripsSubmenu(event)">
+                ✈️ טיולים
+                <ul class="submenu-trips" id="tripsSubmenu">
+                    <li><a href="/trips/trip-israel">טיולים בארץ</a></li>
+                    <li><a href="/trips/trip-abroad">טיולים בחו"ל</a></li>
+                    <li><a href="/trips/family-vacations">חופשות משפחתיות</a></li>
+                    <li><a href="/trips/nature-hikes">טיולי טבע</a></li>
+                </ul>
+            </button>
             <button class="category-btn" onclick="showCategory('family')">👨‍👩‍👧‍👦 משפחה</button>
             <button class="category-btn" onclick="showCategory('holidays')">🎉 חגים</button>
             <button class="category-btn" onclick="showCategory('treated')">🏥 מטופלים</button>
@@ -829,7 +924,8 @@
                 </div>
                 <div class="form-group">
                     <label for="emailSubject">נושא:</label>
-                    <input type="text" id="emailSubject" name="emailSubject" value="פנייה מאתר הסרטונים של אשר לוי" required>
+                    <input type="text" id="emailSubject" name="emailSubject" value="פנייה מאתר הסרטונים של אשר לוי"
+                           required>
                 </div>
                 <div class="form-group">
                     <label for="emailBody">הודעה:</label>
@@ -915,121 +1011,23 @@
     </div>
 
     <script>
-        const LOCAL_STORAGE_KEY = 'asherVideos';
-        const LOCAL_STORAGE_PROFILE_KEY = 'asherProfilePhoto';
-        const LOCAL_STORAGE_BACKGROUND_KEY = 'asherBackgroundSettings';
+        // Data for videos (to be stored in Local Storage)
+        let videos = JSON.parse(localStorage.getItem('videos')) || [];
 
-        let videos = [
-            // יוונית
-            { id: Date.now() + 1, title: 'שיר יווני קלאסי', description: 'סרטון מרגש עם מיטב השירים היווניים העתיקים.', thumbnailUrl: 'https://i.ytimg.com/vi/aL3pB37D2L0/hqdefault.jpg', category: 'greek', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L0', tiktokLink: '' },
-            { id: Date.now() + 2, title: 'מנגינות יווניות עתיקות', description: 'מסע מוזיקלי אל ההיסטוריה של יוון דרך נגינה מסורתית.', thumbnailUrl: 'https://i.ytimg.com/vi/qY6rR8b2o0M/hqdefault.jpg', category: 'greek', youtubeLink: 'https://www.youtube.com/watch?v=qY6rR8b2o0M', tiktokLink: '' },
-            // סרטוני השף
-            { id: Date.now() + 3, title: 'מתכון לקציצות סבתא', description: 'מתכון סודי ומשפחתי לקציצות טעימות במיוחד, שלב אחר שלב.', thumbnailUrl: 'https://i.ytimg.com/vi/z3xP2E8w_w0/hqdefault.jpg', category: 'chef', youtubeLink: 'https://www.youtube.com/watch?v=z3xP2E8w_w0', tiktokLink: '' },
-            { id: Date.now() + 4, title: 'בישול עוגת שוקולד מפנקת', description: 'מדריך קל וכיפי להכנת עוגת שוקולד שתדהים את כולם.', thumbnailUrl: 'https://i.ytimg.com/vi/z9pD_UKfDpc/hqdefault.jpg', category: 'chef', youtubeLink: 'https://www.youtube.com/watch?v=z9pD_UKfDpc', tiktokLink: '' },
-            // נכדים
-            { id: Date.now() + 5, title: 'צחוקים עם הנכדים בפארק', description: 'רגעים מצחיקים ומתוקים של המשפחה בפארק השעשועים.', thumbnailUrl: 'https://i.ytimg.com/vi/a-d790d_a0c/hqdefault.jpg', category: 'children', youtubeLink: 'https://www.youtube.com/watch?v=a-d790d_a0c', tiktokLink: '' },
-            // בר מצווה
-            { id: Date.now() + 6, title: 'חגיגת בר המצווה של דניאל', description: 'אירוע מרגש ובלתי נשכח מבר המצווה של דניאל.', thumbnailUrl: 'https://i.ytimg.com/vi/b-e81e9_b0c/hqdefault.jpg', category: 'bar-mitzvah', youtubeLink: 'https://www.youtube.com/watch?v=b-e81e9_b0c', tiktokLink: '' },
-            // טיולים
-            { id: Date.now() + 7, title: 'טיול בטבע באלפים השוויצריים', description: 'נופים עוצרי נשימה מהטיול המשפחתי בשוויץ.', thumbnailUrl: 'https://i.ytimg.com/vi/c-f92f-c1d0/hqdefault.jpg', category: 'trips', youtubeLink: 'https://www.youtube.com/watch?v=c-f92f-c1d0', tiktokLink: '' },
-            // משפחה
-            { id: Date.now() + 8, title: 'ארוחת שישי משפחתית', description: 'ארוחת שישי חמה וטעימה עם כל המשפחה המורחבת.', thumbnailUrl: 'https://i.ytimg.com/vi/d-g10g2-d0c/hqdefault.jpg', category: 'family', youtubeLink: 'https://www.youtube.com/watch?v=d-g10g2-d0c', tiktokLink: '' },
-            // חגים
-            { id: Date.now() + 9, title: 'חגיגות ראש השנה בבית', description: 'שולחן חג עשיר וברכות לשנה טובה.', thumbnailUrl: 'https://i.ytimg.com/vi/e-h21h3-e1d/hqdefault.jpg', category: 'holidays', youtubeLink: 'https://www.youtube.com/watch?v=e-h21h3-e1d', tiktokLink: '' },
-            // מטופלים
-            { id: Date.now() + 10, title: 'טיפול פיזיותרפיה מוצלח', description: 'התקדמות מרגשת של מטופל בתהליך השיקום.', thumbnailUrl: 'https://i.ytimg.com/vi/f-i32i4-f2e/hqdefault.jpg', category: 'treated', youtubeLink: 'https://www.youtube.com/watch?v=f-i32i4-f2e', tiktokLink: '' },
-            // ימי הולדת
-            { id: Date.now() + 11, title: 'מסיבת יום הולדת 70 לאשר', description: 'מסיבת הפתעה מרגשת ומרגשת במיוחד.', thumbnailUrl: 'https://i.ytimg.com/vi/g-j43j5-g3f/hqdefault.jpg', category: 'birthdays', youtubeLink: 'https://www.youtube.com/watch?v=g-j43j5-g3f', tiktokLink: '' },
-            // טיקטוק
-            { id: Date.now() + 12, title: 'ריקוד טיקטוק מצחיק', description: 'סרטון טיקטוק ויראלי שיגרום לכם לצחוק.', thumbnailUrl: 'https://i.ytimg.com/vi/h-k54k6-h4g/hqdefault.jpg', category: 'tiktok', youtubeLink: '', tiktokLink: 'https://www.tiktok.com/@some_tiktok_user/video/123456789' },
-            { id: Date.now() + 13, title: 'אתגר טיקטוק חדש', description: 'נסו את האתגר החדש והצחיק ביותר בטיקטוק!', thumbnailUrl: 'https://i.ytimg.com/vi/i-l65l7-i5h/hqdefault.jpg', category: 'tiktok', youtubeLink: '', tiktokLink: 'https://www.tiktok.com/@another_tiktok_user/video/987654321' },
-        ];
+        // Admin password (can be changed)
+        const ADMIN_PASSWORD = "your_admin_password"; // ** CHANGE THIS TO A SECURE PASSWORD **
 
+        let cropper; // Variable to hold the cropper instance
+        let currentImageTarget; // 'profile', 'backgroundLeft', 'backgroundRight'
 
-        let adminMode = false;
-        let currentCropper = null;
-        let cropTarget = ''; // 'profile', 'backgroundLeft', 'backgroundRight'
-
-        // Load data from Local Storage on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            loadVideosFromLocalStorage();
-            loadProfilePhotoFromLocalStorage();
-            loadBackgroundSettingsFromLocalStorage();
-            displayVideos();
-            showCategory('all'); // Display all videos by default
-        });
-
-        function loadVideosFromLocalStorage() {
-            const storedVideos = localStorage.getItem(LOCAL_STORAGE_KEY);
-            if (storedVideos) {
-                videos = JSON.parse(storedVideos);
-            }
-        }
-
-        function saveVideosToLocalStorage() {
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(videos));
-        }
-
-        function loadProfilePhotoFromLocalStorage() {
-            const storedPhoto = localStorage.getItem(LOCAL_STORAGE_PROFILE_KEY);
-            if (storedPhoto) {
-                document.querySelector('.grandpa-photo').src = storedPhoto;
-            }
-        }
-
-        function saveProfilePhotoToLocalStorage(imageUrl) {
-            localStorage.setItem(LOCAL_STORAGE_PROFILE_KEY, imageUrl);
-            document.querySelector('.grandpa-photo').src = imageUrl;
-        }
-
-        function loadBackgroundSettingsFromLocalStorage() {
-            const settings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_BACKGROUND_KEY));
-            if (settings) {
-                applyBackgroundSettings(settings);
-                // Set form values
-                document.getElementById('bgImageUrlLeft').value = settings.imageUrlLeft || '';
-                document.getElementById('bgImageUrlRight').value = settings.imageUrlRight || '';
-                document.getElementById('bgImageSize').value = settings.size || 40;
-                document.querySelector(`input[name="bgPosition"][value="${settings.position}"]`).checked = true;
-            }
-        }
-
-        function saveBackgroundSettingsToLocalStorage(settings) {
-            localStorage.setItem(LOCAL_STORAGE_BACKGROUND_KEY, JSON.stringify(settings));
-            applyBackgroundSettings(settings);
-        }
-
-        function applyBackgroundSettings(settings) {
-            const body = document.body;
-            body.style.backgroundImage = '';
-            body.style.backgroundPosition = '';
-            body.style.backgroundSize = '';
-
-            const size = `${settings.size}%`;
-
-            if (settings.position === 'left' && settings.imageUrlLeft) {
-                body.style.backgroundImage = `url('${settings.imageUrlLeft}')`;
-                body.style.backgroundPosition = 'left bottom';
-                body.style.backgroundSize = size;
-            } else if (settings.position === 'right' && settings.imageUrlRight) {
-                body.style.backgroundImage = `url('${settings.imageUrlRight}')`;
-                body.style.backgroundPosition = 'right bottom';
-                body.style.backgroundSize = size;
-            } else if (settings.position === 'both' && settings.imageUrlLeft && settings.imageUrlRight) {
-                body.style.backgroundImage = `url('${settings.imageUrlLeft}'), url('${settings.imageUrlRight}')`;
-                body.style.backgroundPosition = 'left bottom, right bottom';
-                body.style.backgroundSize = `${size}, ${size}`;
-            } else {
-                // If no valid image or position, revert to gradient
-                body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-            }
-        }
-
-        function displayVideos() {
-            const videoCategoriesContainer = document.getElementById('videoCategoriesContainer');
-            videoCategoriesContainer.innerHTML = '';
+        // Function to display categories and videos
+        function displayVideos(filterCategory = 'all') {
+            const container = document.getElementById('videoCategoriesContainer');
+            container.innerHTML = ''; // Clear existing content
 
             const categories = {};
+
+            // Group videos by category
             videos.forEach(video => {
                 if (!categories[video.category]) {
                     categories[video.category] = [];
@@ -1037,154 +1035,253 @@
                 categories[video.category].push(video);
             });
 
-            const categoryOrder = ["greek", "children", "bar-mitzvah", "trips", "family", "holidays", "treated", "tiktok", "birthdays", "chef"];
-            const categoryNames = {
-                "greek": "יוונית",
-                "children": "נכדים",
-                "bar-mitzvah": "בר מצווה",
-                "trips": "טיולים",
-                "family": "משפחה",
-                "holidays": "חגים",
-                "treated": "מטופלים",
-                "tiktok": "טיקטוק",
-                "birthdays": "ימי הולדת",
-                "chef": "סרטוני השף"
-            };
-            const categoryIcons = {
-                "greek": "🏛️",
-                "children": "💝",
-                "bar-mitzvah": "🕍",
-                "trips": "✈️",
-                "family": "👨‍👩‍👧‍👦",
-                "holidays": "🎉",
-                "treated": "🏥",
-                "tiktok": "📱",
-                "birthdays": "🎂",
-                "chef": "👨‍🍳"
-            };
+            // Order of categories for display
+            const orderedCategories = ["all", "greek", "children", "bar-mitzvah", "trips", "family", "holidays", "treated", "tiktok", "birthdays", "chef"];
 
-            categoryOrder.forEach(categoryKey => {
-                const categoryVideos = categories[categoryKey];
-                if (categoryVideos && categoryVideos.length > 0) {
-                    const categorySection = document.createElement('div');
-                    categorySection.id = `category-${categoryKey}`;
-                    categorySection.classList.add('category-section');
+            orderedCategories.forEach(categoryKey => {
+                if (filterCategory === 'all' || filterCategory === categoryKey) {
+                    const categoryVideos = categories[categoryKey];
+                    if (categoryVideos && categoryVideos.length > 0) {
+                        const categorySection = document.createElement('div');
+                        categorySection.className = 'category-section';
 
-                    const categoryTitle = document.createElement('h2');
-                    categoryTitle.classList.add('category-title');
-                    categoryTitle.innerHTML = `<span class="category-icon">${categoryIcons[categoryKey]}</span> ${categoryNames[categoryKey]}`;
-                    categorySection.appendChild(categoryTitle);
+                        const categoryTitle = document.createElement('h2');
+                        categoryTitle.className = 'category-title';
+                        categoryTitle.innerHTML = `${getCategoryIcon(categoryKey)} ${getCategoryName(categoryKey)}`;
+                        categorySection.appendChild(categoryTitle);
 
-                    const videoGallery = document.createElement('div');
-                    videoGallery.classList.add('video-gallery');
+                        const videoGallery = document.createElement('div');
+                        videoGallery.className = 'video-gallery';
 
-                    categoryVideos.forEach(video => {
-                        const videoCard = document.createElement('div');
-                        videoCard.classList.add('video-card');
-                        videoCard.dataset.id = video.id;
-                        videoCard.dataset.category = video.category;
+                        categoryVideos.forEach(video => {
+                            const videoCard = document.createElement('div');
+                            videoCard.className = 'video-card';
+                            videoCard.dataset.id = video.id;
+                            videoCard.dataset.category = video.category;
 
-                        videoCard.innerHTML = `
-                            <button class="delete-btn" onclick="deleteVideo(${video.id})">✖</button>
-                            <button class="edit-btn" onclick="openEditVideoModal(${video.id})">✏️</button>
-                            <img src="${video.thumbnailUrl || 'https://via.placeholder.com/300x180?text=אין+תמונה'}" alt="${video.title}" class="video-thumbnail">
-                            <h3 class="video-title">${video.title}</h3>
-                            <p class="video-description">${video.description}</p>
-                            <div class="video-actions">
-                                ${video.youtubeLink ? `<a href="${video.youtubeLink}" target="_blank" class="btn btn-youtube">צפה ביוטיוב</a>` : ''}
-                                ${video.tiktokLink ? `<a href="${video.tiktokLink}" target="_blank" class="btn btn-tiktok">צפה בטיקטוק</a>` : ''}
-                            </div>
-                        `;
-                        videoGallery.appendChild(videoCard);
-                    });
-                    categorySection.appendChild(videoGallery);
-                    videoCategoriesContainer.appendChild(categorySection);
+                            // Edit button
+                            const editBtn = document.createElement('button');
+                            editBtn.className = 'edit-btn';
+                            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+                            editBtn.onclick = () => openEditVideoModal(video.id);
+                            videoCard.appendChild(editBtn);
+
+                            // Delete button
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.className = 'delete-btn';
+                            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+                            deleteBtn.onclick = () => deleteVideo(video.id);
+                            videoCard.appendChild(deleteBtn);
+
+                            const thumbnail = document.createElement('img');
+                            thumbnail.className = 'video-thumbnail';
+                            thumbnail.src = video.thumbnailUrl || 'https://via.placeholder.com/300x180?text=No+Thumbnail';
+                            thumbnail.alt = video.title;
+                            videoCard.appendChild(thumbnail);
+
+                            const title = document.createElement('h3');
+                            title.className = 'video-title';
+                            title.textContent = video.title;
+                            videoCard.appendChild(title);
+
+                            const description = document.createElement('p');
+                            description.className = 'video-description';
+                            description.textContent = video.description;
+                            videoCard.appendChild(description);
+
+                            const actions = document.createElement('div');
+                            actions.className = 'video-actions';
+
+                            if (video.youtubeLink) {
+                                const youtubeLink = document.createElement('a');
+                                youtubeLink.href = video.youtubeLink;
+                                youtubeLink.target = '_blank';
+                                youtubeLink.className = 'btn btn-youtube';
+                                youtubeLink.innerHTML = '<i class="fab fa-youtube"></i> צפה ביוטיוב';
+                                actions.appendChild(youtubeLink);
+                            }
+
+                            if (video.tiktokLink) {
+                                const tiktokLink = document.createElement('a');
+                                tiktokLink.href = video.tiktokLink;
+                                tiktokLink.target = '_blank';
+                                tiktokLink.className = 'btn btn-tiktok';
+                                tiktokLink.innerHTML = '<i class="fab fa-tiktok"></i> צפה בטיקטוק';
+                                actions.appendChild(tiktokLink);
+                            }
+                            videoCard.appendChild(actions);
+                            videoGallery.appendChild(videoCard);
+                        });
+
+                        categorySection.appendChild(videoGallery);
+                        container.appendChild(categorySection);
+                    }
                 }
             });
-            updateAdminModeDisplay(); // Apply admin mode display after rendering
         }
 
+        // --- JavaScript חדש עבור תפריט המשנה של טיולים ---
+
+        // פונקציה לטיפול בתפריט המשנה של טיולים
+        function toggleTripsSubmenu(event) {
+            // מונע את התנהגות ברירת המחדל של הכפתור (שלא יפעיל showCategory('trips') ישירות)
+            event.preventDefault();
+
+            const tripsButton = event.currentTarget; // הכפתור "טיולים" שנלחץ עליו
+            const submenu = tripsButton.querySelector('.submenu-trips'); // תפריט המשנה בתוך הכפתור
+
+            // סגור את כל תפריטי המשנה הפתוחים האחרים
+            document.querySelectorAll('.submenu-trips').forEach(sub => {
+                if (sub !== submenu && sub.style.display === 'block') {
+                    sub.style.display = 'none';
+                    sub.closest('.has-submenu').classList.remove('active');
+                }
+            });
+
+            // שנה את מצב התצוגה של תפריט המשנה הנוכחי
+            if (submenu.style.display === 'block') {
+                submenu.style.display = 'none';
+                tripsButton.classList.remove('active'); // הסר קלאס active
+            } else {
+                submenu.style.display = 'block';
+                tripsButton.classList.add('active'); // הוסף קלאס active
+            }
+
+            // מונע את סגירת התפריט בלחיצה על הדף, אם לחצנו על התפריט עצמו
+            event.stopPropagation();
+        }
+
+        // פונקציה לסגירת תפריטי המשנה כאשר לוחצים מחוץ להם
+        document.addEventListener('click', function (event) {
+            const tripsButtons = document.querySelectorAll('.category-btn.has-submenu');
+            tripsButtons.forEach(button => {
+                if (!button.contains(event.target)) {
+                    const submenu = button.querySelector('.submenu-trips');
+                    if (submenu && submenu.style.display === 'block') {
+                        submenu.style.display = 'none';
+                        button.classList.remove('active');
+                    }
+                }
+            });
+        });
+
+        // --- סוף JavaScript חדש עבור תפריט המשנה של טיולים ---
+
+
+        // Function to filter videos by category
         function showCategory(category) {
-            const categorySections = document.querySelectorAll('.category-section');
-            categorySections.forEach(section => {
-                if (category === 'all' || section.id === `category-${category}`) {
-                    section.classList.remove('hidden');
-                } else {
-                    section.classList.add('hidden');
+            // אם זו לא קטגוריית 'trips', סגור את תפריט המשנה של 'trips' אם הוא פתוח
+            if (category !== 'trips') {
+                const tripsSubmenu = document.getElementById('tripsSubmenu');
+                const tripsButton = document.querySelector('.category-btn.has-submenu');
+                if (tripsSubmenu && tripsSubmenu.style.display === 'block') {
+                    tripsSubmenu.style.display = 'none';
+                    if (tripsButton) {
+                        tripsButton.classList.remove('active');
+                    }
                 }
+            }
+
+            // Reset active state for all category buttons
+            const buttons = document.querySelectorAll('.category-btn');
+            buttons.forEach(button => {
+                button.classList.remove('active');
             });
 
-            // Update active button styling
-            const categoryBtns = document.querySelectorAll('.category-btn');
-            categoryBtns.forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`.category-btn[onclick="showCategory('${category}')"]`).classList.add('active');
+            // Set active state for the clicked button
+            if (category === 'all') {
+                document.querySelector('.category-btn[onclick*="showCategory(\'all\')"]').classList.add('active');
+            } else if (category !== 'trips') { // Don't add active to 'trips' if its submenu is handled separately
+                document.querySelector(`.category-btn[onclick*="showCategory('${category}')"]`).classList.add('active');
+            }
+
+
+            // Display videos based on the filter
+            if (category === 'all') {
+                displayVideos('all');
+            } else if (category === 'trips') {
+                // If 'trips' is clicked, do not display generic 'trips' videos immediately,
+                // the submenu will handle specific navigation.
+                // You might choose to display a placeholder or specific "main trips page" content here.
+                // For now, we'll just return and let the submenu handle the actual navigation.
+                return;
+            } else {
+                displayVideos(category);
+            }
         }
 
-        function openEmailModal() {
-            document.getElementById('emailModal').style.display = 'block';
+
+        // Helper functions for category names and icons
+        function getCategoryName(key) {
+            const names = {
+                'greek': 'יוונית',
+                'children': 'נכדים',
+                'bar-mitzvah': 'ברי מצווה',
+                'trips': 'טיולים',
+                'family': 'משפחה',
+                'holidays': 'חגים',
+                'treated': 'מטופלים',
+                'tiktok': 'טיקטוק',
+                'birthdays': 'ימי הולדת',
+                'chef': 'סרטוני השף',
+                'all': 'הכל'
+            };
+            return names[key] || key;
         }
 
-        function closeEmailModal() {
-            document.getElementById('emailModal').style.display = 'none';
+        function getCategoryIcon(key) {
+            const icons = {
+                'greek': '🏛️',
+                'children': '💝',
+                'bar-mitzvah': '🕍',
+                'trips': '✈️',
+                'family': '👨‍👩‍👧‍👦',
+                'holidays': '🎉',
+                'treated': '🏥',
+                'tiktok': '📱',
+                'birthdays': '🎂',
+                'chef': '👨‍🍳',
+                'all': '🎭'
+            };
+            return icons[key] || '';
         }
 
-        // Admin functionality
-        const ADMIN_PASSWORD = 'aslan'; // CHANGE THIS TO A SECURE PASSWORD IN PRODUCTION!
-
+        // Admin Login Modal
         function showAdminLogin() {
             document.getElementById('adminLoginModal').style.display = 'block';
         }
 
         function closeAdminLoginModal() {
             document.getElementById('adminLoginModal').style.display = 'none';
-            document.getElementById('adminPassword').value = ''; // Clear password field
         }
 
         function checkAdminPassword(event) {
             event.preventDefault();
             const password = document.getElementById('adminPassword').value;
             if (password === ADMIN_PASSWORD) {
-                adminMode = true;
+                alert("התחברת בהצלחה למצב מנהל!");
+                document.body.classList.add('admin-mode');
                 document.getElementById('adminPanel').classList.add('active');
-                document.body.classList.add('admin-mode'); // Add class to body to show delete/edit buttons
                 closeAdminLoginModal();
-                updateAdminModeDisplay();
-                alert('מצב מנהל הופעל בהצלחה!');
             } else {
-                alert('סיסמה שגויה.');
+                alert("סיסמה שגויה. נסה שוב.");
             }
+            document.getElementById('adminPassword').value = ''; // Clear password field
         }
 
         function exitAdmin() {
-            adminMode = false;
+            document.body.classList.remove('admin-mode');
             document.getElementById('adminPanel').classList.remove('active');
-            document.body.classList.remove('admin-mode'); // Remove class from body to hide delete/edit buttons
-            // Hide all admin forms when exiting admin mode
             document.getElementById('addVideoForm').classList.remove('active');
             document.getElementById('backgroundSettingsForm').classList.remove('active');
-            updateAdminModeDisplay();
-            alert('מצב מנהל כבוי.');
+            alert("יצאת ממצב מנהל.");
         }
 
-        function updateAdminModeDisplay() {
-            const videoCards = document.querySelectorAll('.video-card');
-            videoCards.forEach(card => {
-                if (adminMode) {
-                    card.querySelector('.delete-btn').style.display = 'flex';
-                    card.querySelector('.edit-btn').style.display = 'flex';
-                } else {
-                    card.querySelector('.delete-btn').style.display = 'none';
-                    card.querySelector('.edit-btn').style.display = 'none';
-                }
-            });
-        }
-
+        // Add Video Form
         function toggleAddVideoForm() {
             const form = document.getElementById('addVideoForm');
             form.classList.toggle('active');
-            document.getElementById('backgroundSettingsForm').classList.remove('active'); // Hide other form
+            document.getElementById('backgroundSettingsForm').classList.remove('active'); // Close other forms
         }
 
         function addNewVideo(event) {
@@ -1197,7 +1294,7 @@
             const tiktokLink = document.getElementById('tiktokLink').value;
 
             const newVideo = {
-                id: Date.now(),
+                id: Date.now().toString(), // Unique ID
                 title,
                 description,
                 thumbnailUrl,
@@ -1207,22 +1304,46 @@
             };
 
             videos.push(newVideo);
-            saveVideosToLocalStorage();
-            displayVideos(); // Re-render videos to include the new one
-            document.getElementById('addVideoForm').classList.remove('active'); // Hide form after submission
-            event.target.reset(); // Clear form fields
-            alert('סרטון נוסף בהצלחה!');
+            localStorage.setItem('videos', JSON.stringify(videos));
+            displayVideos(document.querySelector('.category-btn.active').getAttribute('onclick').match(/'(.*?)'/)[1]); // Refresh current category
+            alert("סרטון נוסף בהצלחה!");
+            // Clear form
+            document.getElementById('videoTitle').value = '';
+            document.getElementById('videoDescription').value = '';
+            document.getElementById('videoThumbnailUrl').value = '';
+            document.getElementById('youtubeLink').value = '';
+            document.getElementById('tiktokLink').value = '';
+            document.getElementById('addVideoForm').classList.remove('active'); // Close form
+        }
+
+        // Delete Video Mode
+        let deleteMode = false;
+
+        function toggleDeleteMode() {
+            deleteMode = !deleteMode;
+            const cards = document.querySelectorAll('.video-card');
+            cards.forEach(card => {
+                if (deleteMode) {
+                    card.querySelector('.delete-btn').style.display = 'flex';
+                    card.querySelector('.edit-btn').style.display = 'flex';
+                } else {
+                    card.querySelector('.delete-btn').style.display = 'none';
+                    card.querySelector('.edit-btn').style.display = 'none';
+                }
+            });
+            alert(deleteMode ? "מצב מחיקה ועריכה מופעל." : "מצב מחיקה ועריכה כבוי.");
         }
 
         function deleteVideo(id) {
-            if (confirm('האם אתה בטוח שברצונך למחוק סרטון זה?')) {
+            if (confirm("האם אתה בטוח שברצונך למחוק סרטון זה?")) {
                 videos = videos.filter(video => video.id !== id);
-                saveVideosToLocalStorage();
-                displayVideos(); // Re-render videos
-                alert('הסרטון נמחק בהצלחה.');
+                localStorage.setItem('videos', JSON.stringify(videos));
+                displayVideos(document.querySelector('.category-btn.active').getAttribute('onclick').match(/'(.*?)'/)[1]); // Refresh current category
+                alert("הסרטון נמחק בהצלחה.");
             }
         }
 
+        // Edit Video Modal
         function openEditVideoModal(id) {
             const video = videos.find(v => v.id === id);
             if (video) {
@@ -1243,7 +1364,7 @@
 
         function updateVideo(event) {
             event.preventDefault();
-            const id = parseInt(document.getElementById('editVideoId').value);
+            const id = document.getElementById('editVideoId').value;
             const title = document.getElementById('editVideoTitle').value;
             const description = document.getElementById('editVideoDescription').value;
             const thumbnailUrl = document.getElementById('editVideoThumbnailUrl').value;
@@ -1252,7 +1373,7 @@
             const tiktokLink = document.getElementById('editTiktokLink').value;
 
             const videoIndex = videos.findIndex(v => v.id === id);
-            if (videoIndex !== -1) {
+            if (videoIndex > -1) {
                 videos[videoIndex] = {
                     id,
                     title,
@@ -1262,90 +1383,198 @@
                     youtubeLink,
                     tiktokLink
                 };
-                saveVideosToLocalStorage();
-                displayVideos();
+                localStorage.setItem('videos', JSON.stringify(videos));
+                displayVideos(document.querySelector('.category-btn.active').getAttribute('onclick').match(/'(.*?)'/)[1]); // Refresh current category
+                alert("הסרטון עודכן בהצלחה!");
                 closeEditVideoModal();
-                alert('הסרטון עודכן בהצלחה!');
             }
         }
 
+        // Email Modal
+        function openEmailModal() {
+            document.getElementById('emailModal').style.display = 'block';
+            // Set the recipient email address for the form
+            document.querySelector('#emailModal form').action = `mailto:your-email@example.com?subject=${encodeURIComponent(document.getElementById('emailSubject').value)}&body=${encodeURIComponent(document.getElementById('emailBody').value)}`;
+        }
+
+        function closeEmailModal() {
+            document.getElementById('emailModal').style.display = 'none';
+        }
+
+        // Background Settings
         function toggleBackgroundSettingsForm() {
             const form = document.getElementById('backgroundSettingsForm');
             form.classList.toggle('active');
-            document.getElementById('addVideoForm').classList.remove('active'); // Hide other form
+            document.getElementById('addVideoForm').classList.remove('active'); // Close other forms
+            loadBackgroundSettings(); // Load current settings when opening the form
         }
 
         function saveBackgroundSettings(event) {
             event.preventDefault();
-            const imageUrlLeft = document.getElementById('bgImageUrlLeft').value;
-            const imageUrlRight = document.getElementById('bgImageUrlRight').value;
-            const size = document.getElementById('bgImageSize').value;
-            const position = document.querySelector('input[name="bgPosition"]:checked').value;
+            const bgImageUrlLeft = document.getElementById('bgImageUrlLeft').value;
+            const bgImageUrlRight = document.getElementById('bgImageUrlRight').value;
+            const bgImageSize = document.getElementById('bgImageSize').value;
+            const bgPosition = document.querySelector('input[name="bgPosition"]:checked').value;
 
             const settings = {
-                imageUrlLeft,
-                imageUrlRight,
-                size: parseInt(size),
-                position
+                bgImageUrlLeft,
+                bgImageUrlRight,
+                bgImageSize,
+                bgPosition
             };
-            saveBackgroundSettingsToLocalStorage(settings);
-            document.getElementById('backgroundSettingsForm').classList.remove('active');
-            alert('הגדרות רקע נשמרו בהצלחה!');
+            localStorage.setItem('backgroundSettings', JSON.stringify(settings));
+            applyBackgroundSettings();
+            alert("הגדרות הרקע נשמרו בהצלחה!");
+            document.getElementById('backgroundSettingsForm').classList.remove('active'); // Close form
         }
 
-        // Image Cropper Logic
+        function loadBackgroundSettings() {
+            const settings = JSON.parse(localStorage.getItem('backgroundSettings'));
+            if (settings) {
+                document.getElementById('bgImageUrlLeft').value = settings.bgImageUrlLeft || '';
+                document.getElementById('bgImageUrlRight').value = settings.bgImageUrlRight || '';
+                document.getElementById('bgImageSize').value = settings.bgImageSize || 40;
+                document.querySelector(`input[name="bgPosition"][value="${settings.bgPosition || 'none'}"]`).checked = true;
+            }
+        }
+
+        function applyBackgroundSettings() {
+            const settings = JSON.parse(localStorage.getItem('backgroundSettings'));
+            const body = document.body;
+
+            body.style.backgroundImage = '';
+            body.style.backgroundSize = '';
+            body.style.backgroundPosition = '';
+
+            if (settings && settings.bgPosition !== 'none') {
+                let imageUrls = [];
+                let backgroundPositions = [];
+                let backgroundSizes = [];
+
+                if (settings.bgImageUrlLeft) {
+                    imageUrls.push(`url('${settings.bgImageUrlLeft}')`);
+                    backgroundPositions.push('left bottom');
+                    backgroundSizes.push(`${settings.bgImageSize}%`);
+                }
+
+                if (settings.bgPosition === 'both' && settings.bgImageUrlRight) {
+                    imageUrls.push(`url('${settings.bgImageUrlRight}')`);
+                    backgroundPositions.push('right bottom');
+                    backgroundSizes.push(`${settings.bgImageSize}%`);
+                }
+
+                if (imageUrls.length > 0) {
+                    body.style.backgroundImage = imageUrls.join(', ');
+                    body.style.backgroundSize = backgroundSizes.join(', ');
+                    body.style.backgroundPosition = backgroundPositions.join(', ');
+                    body.style.backgroundRepeat = 'no-repeat';
+                    body.style.backgroundAttachment = 'fixed';
+                }
+            } else {
+                // Fallback to default gradient if no images or position is 'none'
+                body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+            }
+        }
+
+        // Image Cropping functionality
         function handleImageUpload(event, target) {
             const file = event.target.files[0];
             if (!file) return;
 
-            cropTarget = target;
+            currentImageTarget = target; // Store the target for later use
+
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = function (e) {
                 const imageToCrop = document.getElementById('imageToCrop');
                 imageToCrop.src = e.target.result;
                 document.getElementById('imageCropModal').style.display = 'block';
 
-                if (currentCropper) {
-                    currentCropper.destroy();
+                if (cropper) {
+                    cropper.destroy();
                 }
 
-                currentCropper = new Cropper(imageToCrop, {
-                    aspectRatio: 1, // For profile photo, it's a circle, so 1:1 ratio
-                    viewMode: 1,
-                    minCropBoxWidth: 50,
-                    minCropBoxHeight: 50,
+                let aspectRatio = 1; // Default for profile (square)
+                if (target.startsWith('background')) {
+                    aspectRatio = NaN; // Free ratio for background images
+                }
+
+                cropper = new Cropper(imageToCrop, {
+                    aspectRatio: aspectRatio,
+                    viewMode: 1, // Restrict the crop box to not exceed the canvas
+                    scalable: true,
+                    zoomable: true,
                 });
             };
             reader.readAsDataURL(file);
         }
 
         function cropAndSaveImage() {
-            if (currentCropper) {
-                const croppedCanvas = currentCropper.getCroppedCanvas();
-                if (croppedCanvas) {
-                    const imageUrl = croppedCanvas.toDataURL('image/png'); // Use PNG for transparency
+            if (!cropper) return;
 
-                    if (cropTarget === 'profile') {
-                        saveProfilePhotoToLocalStorage(imageUrl);
-                    } else if (cropTarget === 'backgroundLeft') {
-                        document.getElementById('bgImageUrlLeft').value = imageUrl;
-                    } else if (cropTarget === 'backgroundRight') {
-                        document.getElementById('bgImageUrlRight').value = imageUrl;
-                    }
+            const croppedCanvas = cropper.getCroppedCanvas();
+            if (!croppedCanvas) {
+                alert('לא ניתן לחתוך את התמונה. אנא נסה שוב.');
+                return;
+            }
 
-                    closeImageCropModal();
-                }
+            const croppedDataUrl = croppedCanvas.toDataURL('image/png'); // Using PNG for potential transparency
+
+            if (currentImageTarget === 'profile') {
+                document.querySelector('.grandpa-photo').src = croppedDataUrl;
+                localStorage.setItem('profilePhoto', croppedDataUrl);
+            } else if (currentImageTarget === 'backgroundLeft') {
+                document.getElementById('bgImageUrlLeft').value = croppedDataUrl;
+            } else if (currentImageTarget === 'backgroundRight') {
+                document.getElementById('bgImageUrlRight').value = croppedDataUrl;
+            }
+
+            closeImageCropModal();
+            // If background image was set, apply settings immediately
+            if (currentImageTarget.startsWith('background')) {
+                applyBackgroundSettings();
+                // Persist background settings after cropping
+                const bgImageUrlLeft = document.getElementById('bgImageUrlLeft').value;
+                const bgImageUrlRight = document.getElementById('bgImageUrlRight').value;
+                const bgImageSize = document.getElementById('bgImageSize').value;
+                const bgPosition = document.querySelector('input[name="bgPosition"]:checked').value;
+                const settings = { bgImageUrlLeft, bgImageUrlRight, bgImageSize, bgPosition };
+                localStorage.setItem('backgroundSettings', JSON.stringify(settings));
             }
         }
 
         function closeImageCropModal() {
             document.getElementById('imageCropModal').style.display = 'none';
-            if (currentCropper) {
-                currentCropper.destroy();
-                currentCropper = null;
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
             }
-            document.getElementById('imageToCrop').src = ''; // Clear image source
+            // Clear the file input value to allow selecting the same file again
+            if (currentImageTarget === 'profile') {
+                document.getElementById('profileImageUpload').value = '';
+            } else if (currentImageTarget === 'backgroundLeft') {
+                document.getElementById('bgImageUrlUploadLeft').value = '';
+            } else if (currentImageTarget === 'backgroundRight') {
+                document.getElementById('bgImageUrlUploadRight').value = '';
+            }
+            currentImageTarget = null;
         }
+
+
+        // Initializations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load and display profile photo
+            const savedProfilePhoto = localStorage.getItem('profilePhoto');
+            if (savedProfilePhoto) {
+                document.querySelector('.grandpa-photo').src = savedProfilePhoto;
+            }
+
+            // Apply background settings on load
+            applyBackgroundSettings();
+            loadBackgroundSettings(); // Ensure the form fields reflect current settings
+
+            // Display all videos initially
+            displayVideos('all');
+        });
     </script>
 </body>
 </html>
