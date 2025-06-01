@@ -817,11 +817,11 @@
                         <label>תת-קטגוריה (לטיולים):</label>
                         <select id="videoSubCategory">
                             <option value="">בחר תת-קטגוריה</option>
-                            <option value="holidays">ים המלח</option>
-                            <option value="nature">אילת</option>
-                            <option value="cities">מנו ספנות</option>
+                            <option value="eilat">אילת</option>
+                            <option value="dead_sea">ים המלח</option>
+                            <option value="mano_shipping">מנו ספנות</option>
                             <option value="abroad">חו"ל</option>
-                            <option value="israel">טיולים בצפון \ ירושלים</option>
+                            <option value="north_israel">צפון הארץ</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -892,14 +892,14 @@
             <button class="category-btn" onclick="showCategory('bar-mitzvah')">🕍 ברי מצווה</button>
 
             <div class="dropdown" id="tripsDropdown">
-                <button class="category-btn trips-btn" onclick="toggleTripsDropdown(event)">✈️ ם</button>
+                <button class="category-btn trips-btn" onclick="toggleTripsDropdown(event)">✈️ טיולים</button>
                 <div class="dropdown-content">
                     <a href="#" onclick="showCategory('trips', 'allTrips'); return false;">כל הטיולים</a>
-                    <a href="#" onclick="showCategory('trips', 'holidays'); return false;">ים המלח</a>
-                    <a href="#" onclick="showCategory('trips', 'nature'); return false;">אילת</a>
-                    <a href="#" onclick="showCategory('trips', 'cities'); return false;">מנו ספנות</a>
+                    <a href="#" onclick="showCategory('trips', 'eilat'); return false;">אילת</a>
+                    <a href="#" onclick="showCategory('trips', 'dead_sea'); return false;">ים המלח</a>
+                    <a href="#" onclick="showCategory('trips', 'mano_shipping'); return false;">מנו ספנות</a>
                     <a href="#" onclick="showCategory('trips', 'abroad'); return false;">חו"ל</a>
-                    <a href="#" onclick="showCategory('trips', 'israel'); return false;">טיולים בצפון \ ירושלים</a>
+                    <a href="#" onclick="showCategory('trips', 'north_israel'); return false;">צפון הארץ</a>
                 </div>
             </div>
             <button class="category-btn" onclick="showCategory('family')">👨‍👩‍👧‍👦 משפחה</button>
@@ -999,11 +999,11 @@
                     <label>תת-קטגוריה (לטיולים):</label>
                     <select id="editVideoSubCategory">
                         <option value="">בחר תת-קטגוריה</option>
-                        <option value="holidays">חופשות</option>
-                        <option value="nature">טבע</option>
-                        <option value="cities">ערים</option>
+                        <option value="eilat">אילת</option>
+                        <option value="dead_sea">ים המלח</option>
+                        <option value="mano_shipping">מנו ספנות</option>
                         <option value="abroad">חו"ל</option>
-                        <option value="israel">ישראל</option>
+                        <option value="north_israel">צפון הארץ</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -1051,10 +1051,11 @@
             { id: Date.now() + 6, title: 'חגיגת בר המצווה של דניאל', description: 'אירוע מרגש ובלתי נשכח מבר המצווה של דניאל.', thumbnailUrl: 'https://i.ytimg.com/vi/b-e81e9_b0c/hqdefault.jpg', category: 'bar-mitzvah', youtubeLink: 'https://www.youtube.com/watch?v=b-e81e9_b0c', tiktokLink: '' },
             // טיולים - עם תת-קטגוריות
             { id: Date.now() + 7, title: 'טיול בטבע באלפים השוויצריים', description: 'נופים עוצרי נשימה מהטיול המשפחתי בשוויץ.', thumbnailUrl: 'https://i.ytimg.com/vi/c-f92f-c1d0/hqdefault.jpg', category: 'trips', subCategory: 'nature', youtubeLink: 'https://www.youtube.com/watch?v=c-f92f-c1d0', tiktokLink: '' },
-            { id: Date.now() + 14, title: 'חופשה משפחתית באילת', description: 'כיף בשמש ובבריכה עם כל המשפחה.', thumbnailUrl: 'https://i.ytimg.com/vi/x-y1234-abc/hqdefault.jpg', category: 'trips', subCategory: 'holidays', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L04', tiktokLink: '' },
-            { id: Date.now() + 15, title: 'סיור רגלי בעיר העתיקה ירושלים', description: 'מסע מרתק ברחובות ירושלים העתיקה.', thumbnailUrl: 'https://i.ytimg.com/vi/z-w5678-def/hqdefault.jpg', category: 'trips', subCategory: 'cities', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L05', tiktokLink: '' },
+            { id: Date.now() + 14, title: 'חופשה משפחתית באילת', description: 'כיף בשמש ובבריכה עם כל המשפחה.', thumbnailUrl: 'https://i.ytimg.com/vi/x-y1234-abc/hqdefault.jpg', category: 'trips', subCategory: 'eilat', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L04', tiktokLink: '' },
+            { id: Date.now() + 15, title: 'סיור רגלי בעיר העתיקה ירושלים', description: 'מסע מרתק ברחובות ירושלים העתיקה.', thumbnailUrl: 'https://i.ytimg.com/vi/z-w5678-def/hqdefault.jpg', category: 'trips', subCategory: 'dead_sea', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L05', tiktokLink: '' },
             { id: Date.now() + 16, title: 'טיול שורשים בפולין', description: 'מסע מרגש בעקבות ההיסטוריה המשפחתית.', thumbnailUrl: 'https://i.ytimg.com/vi/a-b9012-ghi/hqdefault.jpg', category: 'trips', subCategory: 'abroad', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L06', tiktokLink: '' },
-            { id: Date.now() + 17, title: 'טיול ג\'יפים ברמת הגולן', description: 'אדרנלין ונופים מדהימים בצפון הארץ.', thumbnailUrl: 'https://i.ytimg.com/vi/c-d3456-jkl/hqdefault.jpg', category: 'trips', subCategory: 'israel', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L07', tiktokLink: '' },
+            { id: Date.now() + 17, title: 'טיול ג\'יפים ברמת הגולן', description: 'אדרנלין ונופים מדהימים בצפון הארץ.', thumbnailUrl: 'https://i.ytimg.com/vi/c-d3456-jkl/hqdefault.jpg', category: 'trips', subCategory: 'north_israel', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L07', tiktokLink: '' },
+            { id: Date.now() + 18, title: 'הפלגה מהנה עם מנו ספנות', description: 'חוויות בלתי נשכחות על סיפון האונייה.', thumbnailUrl: 'https://i.ytimg.com/vi/m-n7890-opq/hqdefault.jpg', category: 'trips', subCategory: 'mano_shipping', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L06', tiktokLink: '' },
 
             // משפחה
             { id: Date.now() + 8, title: 'ארוחת שישי משפחתית', description: 'ארוחת שישי חמה וטעימה עם כל המשפחה המורחבת.', thumbnailUrl: 'https://i.ytimg.com/vi/d-g10g2-d0c/hqdefault.jpg', category: 'family', youtubeLink: 'https://www.youtube.com/watch?v=d-g10g2-d0c', tiktokLink: '' },
@@ -1189,7 +1190,7 @@
 
             const categoryOrder = [
                 "greek", "children", "bar-mitzvah",
-                "trips-allTrips", "trips-holidays", "trips-nature", "trips-cities", "trips-abroad", "trips-israel", // Trips subcategories
+                "trips-allTrips", "trips-eilat", "trips-dead_sea", "trips-mano_shipping", "trips-abroad", "trips-north_israel", // Trips subcategories
                 "family", "holidays", "treated", "tiktok", "birthdays", "chef"
             ];
 
@@ -1198,11 +1199,11 @@
                 "children": "נכדים",
                 "bar-mitzvah": "בר מצווה",
                 "trips-allTrips": "כל הטיולים",
-                "trips-holidays": "ים המלח",
-                "trips-nature": "אילת",
-                "trips-cities": "מנו ספנות",
-                "trips-abroad": "טיולים בחו"ל",
-                "trips-israel": "טיולים בצפון \ ירושלים",
+                "trips-eilat": "אילת",
+                "trips-dead_sea": "ים המלח",
+                "trips-mano_shipping": "מנו ספנות",
+                "trips-abroad": "חו\"ל",
+                "trips-north_israel": "צפון הארץ",
                 "family": "משפחה",
                 "holidays": "חגים",
                 "treated": "מטופלים",
@@ -1215,11 +1216,11 @@
                 "children": "💝",
                 "bar-mitzvah": "🕍",
                 "trips-allTrips": "✈️",
-                "trips-holidays": "🏖️",
-                "trips-nature": "🌳",
-                "trips-cities": "🏙️",
+                "trips-eilat": "☀️", // New icon for Eilat
+                "trips-dead_sea": "🧂", // New icon for Dead Sea
+                "trips-mano_shipping": "🚢", // New icon for Mano Shipping
                 "trips-abroad": "🌍",
-                "trips-israel": "🇮🇱",
+                "trips-north_israel": "⛰️", // New icon for North Israel
                 "family": "👨‍👩‍👧‍👦",
                 "holidays": "🎉",
                 "treated": "🏥",
