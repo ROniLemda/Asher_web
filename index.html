@@ -7,74 +7,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, addDoc, setDoc, updateDoc, deleteDoc, onSnapshot, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Global Firebase variables accessible to the main script
-        window.firebaseApp = null;
-        window.db = null;
-        window.auth = null;
-        window.userId = null;
-        window.appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id'; // Use __app_id from Canvas environment
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {}; // Use __firebase_config
-
-        // Collection paths for Firestore
-        window.videosCollectionPath = `artifacts/${window.appId}/public/data/videos`;
-        window.categoriesCollectionPath = `artifacts/${window.appId}/public/data/categories`;
-        window.settingsCollectionPath = `artifacts/${window.appId}/public/data/settings`;
-
-        // Initialize Firebase and set up authentication
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                if (Object.keys(firebaseConfig).length > 0) {
-                    window.firebaseApp = initializeApp(firebaseConfig);
-                    window.db = getFirestore(window.firebaseApp);
-                    window.auth = getAuth(window.firebaseApp);
-
-                    onAuthStateChanged(window.auth, async (user) => {
-                        if (user) {
-                            window.userId = user.uid;
-                            console.log("Firebase authenticated. User ID:", window.userId);
-                        } else {
-                            // Sign in anonymously if no user is authenticated
-                            try {
-                                if (typeof __initial_auth_token !== 'undefined') {
-                                    await signInWithCustomToken(window.auth, __initial_auth_token);
-                                    window.userId = window.auth.currentUser.uid;
-                                    console.log("Signed in with custom token. User ID:", window.userId);
-                                } else {
-                                    await signInAnonymously(window.auth);
-                                    window.userId = window.auth.currentUser.uid;
-                                    console.log("Signed in anonymously. User ID:", window.userId);
-                                }
-                            } catch (error) {
-                                console.error("Firebase authentication error:", error);
-                                showMessageModal('שגיאת אימות', 'אירעה שגיאה באימות Firebase. ייתכן שהנתונים לא ייטענו.', 'error');
-                                // Fallback for userId if auth fails, for read-only access (though write will fail)
-                                window.userId = crypto.randomUUID();
-                            }
-                        }
-                        // Once auth is ready, load data
-                        await loadAllDataFromFirestore();
-                    });
-                } else {
-                    console.warn("Firebase config not found. Running in local storage mode (data will not persist across sessions/users).");
-                    // Fallback to local storage if Firebase is not configured
-                    loadAllDataFromLocalStorage();
-                }
-            } catch (error) {
-                console.error("Failed to initialize Firebase:", error);
-                showMessageModal('שגיאת אתחול', 'אירעה שגיאה באתחול Firebase. ייתכן שהנתונים לא ייטענו.', 'error');
-                // Fallback to local storage if Firebase initialization fails
-                loadAllDataFromLocalStorage();
-            }
-        });
-    </script>
     <style>
         * {
             margin: 0;
@@ -83,228 +15,203 @@
         }
 
         body {
-            font-family: 'Montserrat', sans-serif; /* Changed font */
-            background: linear-gradient(135deg, #ff007f 0%, #00f0ff 50%, #8a2be2 100%); /* More vibrant gradient */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            background-size: 200% 200%; /* Larger background for animation */
+            background-size: auto;
             background-position: left bottom, right bottom;
-            animation: gradientAnimation 15s ease infinite alternate; /* Added animation */
-        }
-
-        @keyframes gradientAnimation {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 100% 100%; }
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.98); /* Slightly less transparent */
-            border-radius: 30px; /* More rounded */
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), 0 0 0 10px rgba(255, 255, 255, 0.2); /* Stronger shadow and outer glow */
-            padding: 40px; /* More padding */
-            backdrop-filter: blur(15px); /* Stronger blur */
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            backdrop-filter: blur(10px);
             position: relative;
             z-index: 1;
-            border: 5px solid #ff007f; /* Vibrant border */
         }
 
         .header {
             text-align: center;
-            margin-bottom: 50px; /* More margin */
-            padding: 30px; /* More padding */
-            background: linear-gradient(45deg, #ff4d4d, #ff9933); /* More fiery gradient */
-            border-radius: 20px; /* More rounded */
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 15px;
             color: white;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             position: relative;
-            animation: headerPop 0.8s ease-out; /* Pop animation */
-        }
-
-        @keyframes headerPop {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
         }
 
         .header h1 {
-            font-family: 'Bebas Neue', sans-serif; /* Changed font */
-            font-size: 3.5rem; /* Larger font */
-            margin-bottom: 15px;
-            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5); /* Stronger text shadow */
-            letter-spacing: 2px; /* Spacing out letters */
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .header p {
-            font-size: 1.4rem; /* Larger font */
-            opacity: 0.95;
-            font-weight: 700; /* Bolder */
+            font-size: 1.2rem;
+            opacity: 0.9;
         }
 
         .admin-btn {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            padding: 10px 20px; /* Larger padding */
-            border-radius: 25px; /* More rounded */
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 1rem; /* Larger font */
+            font-size: 0.9rem;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .admin-btn:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: scale(1.1); /* More pronounced scale */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
         }
 
         .grandpa-photo {
-            width: 180px; /* Larger photo */
-            height: 180px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
-            border: 8px solid white; /* Thicker border */
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+            border: 5px solid white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             margin: 20px auto;
             display: block;
             object-fit: cover;
         }
 
         .gift-note {
-            background: linear-gradient(45deg, #ffed4e, #ffa500); /* More vibrant yellow-orange */
-            color: #444; /* Darker text for contrast */
-            padding: 20px; /* More padding */
-            border-radius: 15px; /* More rounded */
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #333;
+            padding: 15px;
+            border-radius: 10px;
             text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(255, 165, 0, 0.4); /* Stronger shadow */
-            border: 3px solid #ffcc00; /* Thicker border */
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+            border: 2px solid #ffd700;
             cursor: pointer;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            font-size: 1.1rem; /* Larger font */
         }
 
         .gift-note:hover {
-            transform: translateY(-5px) scale(1.02); /* More pronounced effect */
-            box-shadow: 0 12px 30px rgba(255, 165, 0, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
         }
 
         .youtube-section {
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .youtube-link {
             display: block;
-            background: linear-gradient(45deg, #e62117, #ff0000); /* Deeper red */
+            background: linear-gradient(45deg, #ff0000, #cc0000);
             color: white;
-            padding: 20px 30px; /* Larger padding */
-            border-radius: 15px; /* More rounded */
+            padding: 15px 20px;
+            border-radius: 10px;
             text-decoration: none;
             text-align: center;
-            font-size: 1.3rem; /* Larger font */
+            font-size: 1.1rem;
             margin-bottom: 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 12px 30px rgba(255, 0, 0, 0.4);
         }
 
         .youtube-link:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(255, 0, 0, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 0, 0, 0.3);
         }
 
         .category-filters {
             display: flex;
-            gap: 15px; /* More space between buttons */
+            gap: 10px;
             flex-wrap: wrap;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             justify-content: center;
         }
 
         .category-btn {
-            background: linear-gradient(45deg, #4CAF50, #8BC34A); /* Green gradient */
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
-            padding: 15px 25px; /* Larger padding */
+            padding: 12px 20px;
             border: none;
-            border-radius: 30px; /* More rounded */
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 1.1rem; /* Larger font */
-            transition: all 0.4s cubic-bezier(.25,.8,.25,1); /* Smoother transition */
+            font-size: 1rem;
+            transition: all 0.3s ease;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .category-btn:hover, .category-btn.active {
-            transform: translateY(-5px) scale(1.05); /* More pronounced effect */
-            box-shadow: 0 12px 30px rgba(76, 175, 80, 0.5); /* Stronger shadow */
-            background: linear-gradient(45deg, #8BC34A, #4CAF50); /* Inverted gradient on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(45deg, #764ba2, #667eea);
         }
 
         .category-section {
-            margin-bottom: 60px; /* More space */
+            margin-bottom: 50px;
         }
 
         .category-title {
-            font-family: 'Bebas Neue', sans-serif; /* Changed font */
-            font-size: 2.8rem; /* Larger font */
+            font-size: 2rem;
             margin-bottom: 20px;
-            padding: 20px; /* More padding */
-            background: linear-gradient(45deg, #ff6f61, #ffc107); /* Warm, inviting gradient */
-            border-radius: 15px;
+            padding: 15px;
+            background: linear-gradient(45deg, #ffeaa7, #fab1a0);
+            border-radius: 10px;
             text-align: center;
             color: #333;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .video-gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px; /* More space between cards */
+            gap: 20px;
             margin-bottom: 30px;
         }
 
         .video-card {
             background: white;
-            border-radius: 20px; /* More rounded */
-            padding: 25px; /* More padding */
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25); /* Stronger shadow */
-            transition: transform 0.4s cubic-bezier(.25,.8,.25,1), box-shadow 0.4s cubic-bezier(.25,.8,.25,1), border-color 0.4s;
-            border: 3px solid transparent; /* Thicker border */
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
             position: relative;
         }
 
         .video-card:hover {
-            transform: translateY(-10px) scale(1.02); /* More pronounced lift and scale */
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35); /* Even stronger shadow */
-            border-color: #00f0ff; /* Vibrant border on hover */
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
         }
 
         .video-thumbnail {
             width: 100%;
-            height: 200px; /* Taller thumbnails */
+            height: 180px;
             object-fit: cover;
-            border-radius: 15px; /* More rounded */
+            border-radius: 10px;
             margin-bottom: 15px;
             display: block;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .video-title {
-            font-family: 'Montserrat', sans-serif; /* Consistent font */
-            font-size: 1.4rem; /* Larger font */
+            font-size: 1.2rem;
             font-weight: bold;
             margin-bottom: 5px;
-            color: #222;
+            color: #333;
         }
 
         .video-description {
-            font-size: 1rem; /* Slightly larger */
-            color: #666;
+            font-size: 0.95rem;
+            color: #555;
             margin-bottom: 15px;
             line-height: 1.4;
         }
@@ -316,71 +223,67 @@
         }
 
         .btn {
-            background: linear-gradient(45deg, #007bff, #00c6ff); /* Blue gradient */
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
-            padding: 10px 20px; /* Larger padding */
+            padding: 8px 15px;
             border: none;
-            border-radius: 10px; /* More rounded */
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem; /* Larger font */
+            font-size: 0.9rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-decoration: none;
             display: inline-block;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
         }
 
         .btn:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(0, 123, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
 
         .btn-youtube {
-            background: linear-gradient(45deg, #ff0000, #ff4d4d); /* More vibrant red */
+            background: linear-gradient(45deg, #ff0000, #cc0000);
         }
 
         .btn-tiktok {
-            background: linear-gradient(45deg, #000000, #444444); /* Darker black */
+            background: linear-gradient(45deg, #000000, #333333);
         }
 
         .delete-btn, .edit-btn {
             position: absolute;
             top: 10px;
-            width: 35px; /* Larger buttons */
-            height: 35px;
+            width: 30px;
+            height: 30px;
             border: none;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 16px; /* Larger icon */
+            font-size: 14px;
             display: none;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease;
             z-index: 10;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
         }
 
         .delete-btn {
             left: 10px;
-            background: #e74c3c; /* Brighter red */
+            background: #ff4757;
             color: white;
         }
 
         .edit-btn {
             right: 10px;
-            background: #27ae60; /* Brighter green */
+            background: #2ecc71;
             color: white;
         }
 
         .delete-btn:hover {
-            background: #c0392b;
-            transform: scale(1.2); /* More pronounced scale */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: #ff3742;
+            transform: scale(1.1);
         }
 
         .edit-btn:hover {
-            background: #229a56;
-            transform: scale(1.2); /* More pronounced scale */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: #27ae60;
+            transform: scale(1.1);
         }
 
         .admin-mode .delete-btn,
@@ -389,35 +292,32 @@
         }
 
         .category-icon {
-            font-size: 1.8rem; /* Larger icons */
+            font-size: 1.5rem;
             margin-left: 10px;
         }
 
         .footer {
             text-align: center;
-            margin-top: 60px;
-            padding: 30px;
-            background: linear-gradient(45deg, #ffc107, #ff9800); /* Warm footer gradient */
-            border-radius: 20px;
+            margin-top: 40px;
+            padding: 20px;
+            background: linear-gradient(45deg, #ffeaa7, #fab1a0);
+            border-radius: 15px;
             color: #333;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
         .hearts {
-            font-size: 2rem; /* Larger hearts */
+            font-size: 1.5rem;
             margin: 10px 0;
-            animation: pulse 1.5s infinite alternate; /* Faster pulse */
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
             0%, 100% {
                 transform: scale(1);
-                color: #ff007f; /* Pink pulse */
             }
 
             50% {
-                transform: scale(1.2);
-                color: #00f0ff; /* Cyan pulse */
+                transform: scale(1.1);
             }
         }
 
@@ -441,14 +341,13 @@
             background: white;
             margin: 5% auto;
             padding: 30px;
-            border-radius: 25px; /* More rounded */
+            border-radius: 20px;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: slideIn 0.3s ease;
             max-height: 80vh;
             overflow-y: auto;
-            border: 4px solid #ff007f; /* Vibrant border */
         }
 
         @keyframes slideIn {
@@ -480,9 +379,7 @@
             text-align: center;
             color: #333;
             margin-bottom: 20px;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.2rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            font-size: 1.8rem;
         }
 
         .form-group {
@@ -492,28 +389,26 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #444;
+            color: #333;
             font-weight: bold;
-            font-size: 1.05rem;
         }
 
         .form-group input,
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 15px; /* More padding */
-            border: 2px solid #bbb;
-            border-radius: 12px; /* More rounded */
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
             font-size: 1rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: border-color 0.3s ease;
         }
 
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #ff007f; /* Vibrant focus color */
-            box-shadow: 0 0 0 3px rgba(255, 0, 127, 0.2);
+            border-color: #667eea;
         }
 
         .form-group textarea {
@@ -522,32 +417,30 @@
         }
 
         .send-btn {
-            background: linear-gradient(45deg, #8a2be2, #ff007f); /* Purple-pink gradient */
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
-            padding: 15px 35px; /* Larger padding */
+            padding: 12px 30px;
             border: none;
-            border-radius: 15px; /* More rounded */
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 1.2rem; /* Larger font */
+            font-size: 1.1rem;
             width: 100%;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.4);
         }
 
         .send-btn:hover {
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 12px 30px rgba(138, 43, 226, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
         .admin-panel {
-            background: linear-gradient(45deg, #ff9f43, #ff6b6b); /* Warmer orange-red */
+            background: linear-gradient(45deg, #ff9f43, #feca57);
             color: #333;
             padding: 20px;
             border-radius: 15px;
             margin-bottom: 30px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             display: none;
-            border: 3px solid #ff7f50;
         }
 
         .admin-panel.active {
@@ -562,20 +455,19 @@
         }
 
         .admin-controls button {
-            background: linear-gradient(45deg, #00c6ff, #007bff); /* Blue gradient */
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
-            padding: 12px 22px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 1rem;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .admin-controls button:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 8px 20px rgba(0, 198, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
         .add-video-form {
@@ -675,58 +567,36 @@
         }
 
         @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
             .container {
                 padding: 20px;
-                border-radius: 15px;
             }
+
             .header h1 {
-                font-size: 2.5rem;
-            }
-            .header p {
-                font-size: 1rem;
-            }
-            .grandpa-photo {
-                width: 100px;
-                height: 100px;
-                border-width: 4px;
-            }
-            .category-btn {
-                padding: 10px 15px;
-                font-size: 0.9rem;
-            }
-            .category-title {
                 font-size: 2rem;
-                padding: 15px;
             }
-            .video-card {
-                padding: 15px;
+
+            .video-gallery {
+                grid-template-columns: 1fr;
             }
-            .video-thumbnail {
-                height: 150px;
+
+            .category-filters {
+                justify-content: center;
             }
-            .video-title {
-                font-size: 1.1rem;
+
+            .category-btn {
+                font-size: 0.9rem;
+                padding: 10px 15px;
             }
-            .video-description {
-                font-size: 0.85rem;
+
+            .grandpa-photo {
+                width: 120px;
+                height: 120px;
             }
-            .btn {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
+
             .modal-content {
-                margin: 5% auto;
+                margin: 10% auto;
                 width: 95%;
                 padding: 20px;
-            }
-            .social-icons {
-                padding: 0 20px;
-            }
-            .social-icons a {
-                font-size: 60px; /* Smaller on mobile */
             }
         }
         .social-icons {
@@ -736,7 +606,7 @@
             width: 100%;
             display: flex;
             justify-content: space-between; /* מפזר בין הקצוות */
-            padding: 0 60px; /* More spacing */
+            padding: 0 40px; /* מרווח מהקצוות */
             z-index: 2;
             pointer-events: none; /* מונע בעיות עם לחיצות */
         }
@@ -744,7 +614,7 @@
             .social-icons a {
                 pointer-events: auto; /* מאפשר לחיצה על האייקונים בלבד */
                 color: white; /* צבע לבן לאייקונים על רקע צבעוני */
-                font-size: 120px; /* Even larger icons */
+                font-size: 100px; /* גודל האייקון */
                 transition: transform 0.3s ease, color 0.3s ease;
                 text-decoration: none;
                 display: flex;
@@ -752,11 +622,10 @@
                 align-items: center;
                 justify-content: center;
                 gap: 8px; /* מרווח בין האייקון לטקסט */
-                text-shadow: 3px 3px 6px rgba(0,0,0,0.6); /* Stronger shadow */
             }
 
                 .social-icons a:hover {
-                    transform: translateY(-5px) scale(1.15); /* More pronounced scale */
+                    transform: translateY(-3px) scale(1.1); /* אפקט הובר */
                 }
 
                 .social-icons a .social-text {
@@ -771,12 +640,12 @@
 
             /* צבעים ספציפיים לאייקונים בהובר */
             .social-icons .fa-instagram:hover {
-                color: #ff007f; /* More vibrant pink */
+                color: #E1306C; /* צבע אינסטגרם מקורי */
             }
 
             .social-icons .fa-tiktok:hover {
-                color: #00f0ff; /* Cyan hover */
-                text-shadow: 1px 1px 4px rgba(0,0,0,0.8), 0 0 10px rgba(0,240,255,0.5); /* Stronger shadow with glow */
+                color: #000; /* צבע טיקטוק מקורי (שחור) */
+                text-shadow: 1px 1px 2px rgba(255,255,255,0.5); /* צל לבן קל לטיקטוק */
             }
 
         /* התאמות רספונסיביות לאייקונים */
@@ -809,24 +678,23 @@
             transform: translateX(-50%);
             background: white;
             min-width: 220px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border-radius: 20px; /* More rounded */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
             z-index: 1000;
-            border: 3px solid #00c6ff; /* Vibrant border */
+            border: 2px solid #667eea;
             overflow: hidden;
             margin-top: 5px;
         }
 
         .dropdown-content a {
             color: #333;
-            padding: 18px 25px; /* More padding */
+            padding: 15px 20px;
             text-decoration: none;
             display: block;
             transition: all 0.3s ease;
             font-weight: bold;
             border-bottom: 1px solid #f0f0f0;
             background: white;
-            font-size: 1.05rem;
         }
 
         .dropdown-content a:last-child {
@@ -834,9 +702,9 @@
         }
 
         .dropdown-content a:hover {
-            background: linear-gradient(45deg, #00c6ff, #007bff); /* Blue gradient on hover */
+            background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
-            transform: translateX(8px); /* More pronounced slide */
+            transform: translateX(5px);
         }
 
         .dropdown.show .dropdown-content {
@@ -857,9 +725,9 @@
 
         /* סגנון מיוחד לכפתור הטיולים כשהתפריט פתוח */
         .dropdown.show .trips-btn {
-            background: linear-gradient(45deg, #8BC34A, #4CAF50); /* Inverted gradient when open */
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 12px 30px rgba(76, 175, 80, 0.5);
+            background: linear-gradient(45deg, #764ba2, #667eea);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
 
         /* חץ קטן להצגת שהתפריט נפתח */
@@ -1159,8 +1027,47 @@
     </div>
 
     <script>
-        // Removed LOCAL_STORAGE_KEY constants as we are moving to Firestore
-        // Default categories configuration - used for initial population of Firestore if empty
+        const LOCAL_STORAGE_KEY = 'asherVideos';
+        const LOCAL_STORAGE_PROFILE_KEY = 'asherProfilePhoto';
+        const LOCAL_STORAGE_BACKGROUND_KEY = 'asherBackgroundSettings';
+        const LOCAL_STORAGE_CATEGORIES_KEY = 'asherCategoriesConfig'; // New key for categories
+
+        let videos = [
+            // יוונית
+            { id: Date.now() + 1, title: 'שיר יווני קלאסי', description: 'סרטון מרגש עם מיטב השירים היווניים העתיקים.', thumbnailUrl: 'https://i.ytimg.com/vi/aL3pB37D2L0/hqdefault.jpg', category: 'greek', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L0', tiktokLink: '' },
+            { id: Date.now() + 2, title: 'מנגינות יווניות עתיקות', description: 'מסע מוזיקלי אל ההיסטוריה של יוון דרך נגינה מסורתית.', thumbnailUrl: 'https://i.ytimg.com/vi/qY6rR8b2o0M/hqdefault.jpg', category: 'greek', youtubeLink: 'https://www.youtube.com/watch?v=qY6rR8b2o0M', tiktokLink: '' },
+            // סרטוני השף
+            { id: Date.now() + 3, title: 'מתכון לקציצות סבתא', description: 'מתכון סודי ומשפחתי לקציצות טעימות במיוחד, שלב אחר שלב.', thumbnailUrl: 'https://i.ytimg.com/vi/z3xP2E8w_w0/hqdefault.jpg', category: 'chef', youtubeLink: 'https://www.youtube.com/watch?v=z3xP2E8w_w0', tiktokLink: '' },
+            { id: Date.now() + 4, title: 'בישול עוגת שוקולד מפנקת', description: 'מדריך קל וכיפי להכנת עוגת שוקולד שתדהים את כולם.', thumbnailUrl: 'https://i.ytimg.com/vi/z9pD_UKfDpc/hqdefault.jpg', category: 'chef', youtubeLink: 'https://www.youtube.com/watch?v=z9pD_UKfDpc', tiktokLink: '' },
+            // נכדים
+            { id: Date.now() + 5, title: 'צחוקים עם הנכדים בפארק', description: 'רגעים מצחיקים ומתוקים של המשפחה בפארק השעשועים.', thumbnailUrl: 'https://i.ytimg.com/vi/a-d790d_a0c/hqdefault.jpg', category: 'children', youtubeLink: 'https://www.youtube.com/watch?v=a-d790d_a0c', tiktokLink: '' },
+            // בר מצווה
+            { id: Date.now() + 6, title: 'חגיגת בר המצווה של דניאל', description: 'אירוע מרגש ובלתי נשכח מבר המצווה של דניאל.', thumbnailUrl: 'https://i.ytimg.com/vi/b-e81e9_b0c/hqdefault.jpg', category: 'bar-mitzvah', youtubeLink: 'https://www.youtube.com/watch?v=b-e81e9_b0c', tiktokLink: '' },
+            // טיולים - עם תת-קטגוריות
+            { id: Date.now() + 7, title: 'טיול בטבע באלפים השוויצריים', description: 'נופים עוצרי נשימה מהטיול המשפחתי בשוויץ.', thumbnailUrl: 'https://i.ytimg.com/vi/c-f92f-c1d0/hqdefault.jpg', category: 'trips', subCategory: 'nature', youtubeLink: 'https://www.youtube.com/watch?v=c-f92f-c1d0', tiktokLink: '' },
+            { id: Date.now() + 14, title: 'חופשה משפחתית באילת', description: 'כיף בשמש ובבריכה עם כל המשפחה.', thumbnailUrl: 'https://i.ytimg.com/vi/x-y1234-abc/hqdefault.jpg', category: 'trips', subCategory: 'eilat', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L04', tiktokLink: '' },
+            { id: Date.now() + 15, title: 'סיור רגלי בעיר העתיקה ירושלים', description: 'מסע מרתק ברחובות ירושלים העתיקה.', thumbnailUrl: 'https://i.ytimg.com/vi/z-w5678-def/hqdefault.jpg', category: 'trips', subCategory: 'dead_sea', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L05', tiktokLink: '' },
+            { id: Date.now() + 16, title: 'טיול שורשים בפולין', description: 'מסע מרגש בעקבות ההיסטוריה המשפחתית.', thumbnailUrl: 'https://i.ytimg.com/vi/a-b9012-ghi/hqdefault.jpg', category: 'trips', subCategory: 'abroad', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L06', tiktokLink: '' },
+            { id: Date.now() + 17, title: 'טיול ג\'יפים ברמת הגולן', description: 'אדרנלין ונופים מדהימים בצפון הארץ.', thumbnailUrl: 'https://i.ytimg.com/vi/c-d3456-jkl/hqdefault.jpg', category: 'trips', subCategory: 'north_israel', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L07', tiktokLink: '' },
+            { id: Date.now() + 18, title: 'הפלגה מהנה עם מנו ספנות', description: 'חוויות בלתי נשכחות על סיפון האונייה.', thumbnailUrl: 'https://i.ytimg.com/vi/m-n7890-opq/hqdefault.jpg', category: 'trips', subCategory: 'mano_shipping', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L06', tiktokLink: '' },
+            { id: Date.now() + 19, title: 'קלאב הוטל אילת - חופשה', description: 'החופשה המדהימה בקלאב הוטל באילת.', thumbnailUrl: 'https://placehold.co/300x180/007bff/ffffff?text=קלאב+הוטל', category: 'trips', subCategory: 'eilat', subSubCategory: 'club_hotel', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L09', tiktokLink: '' },
+            { id: Date.now() + 20, title: 'לאונרדו אילת - ערב כיף', description: 'ערב בלתי נשכח במלון לאונרדו באילת.', thumbnailUrl: 'https://placehold.co/300x180/28a745/ffffff?text=לאונרדו', category: 'trips', subCategory: 'eilat', subSubCategory: 'leonardo', youtubeLink: 'https://www.youtube.com/watch?v=qY6rR8b2o0M0', tiktokLink: '' },
+
+
+            // משפחה
+            { id: Date.now() + 8, title: 'ארוחת שישי משפחתית', description: 'ארוחת שישי חמה וטעימה עם כל המשפחה המורחבת.', thumbnailUrl: 'https://i.ytimg.com/vi/d-g10g2-d0c/hqdefault.jpg', category: 'family', youtubeLink: 'https://www.youtube.com/watch?v=d-g10g2-d0c', tiktokLink: '' },
+            // חגים - שימו לב: קטגוריית "חגים" נפרדת מ"טיולים"
+            { id: Date.now() + 9, title: 'חגיגות ראש השנה בבית', description: 'שולחן חג עשיר וברכות לשנה טובה.', thumbnailUrl: 'https://i.ytimg.com/vi/e-h21h3-e1d/hqdefault.jpg', category: 'holidays', youtubeLink: 'https://www.youtube.com/watch?v=e-h21h3-e1d', tiktokLink: '' },
+            // מטופלים
+            { id: Date.now() + 10, title: 'טיפול פיזיותרפיה מוצלח', description: 'התקדמות מרגשת של מטופל בתהליך השיקום.', thumbnailUrl: 'https://i.ytimg.com/vi/f-i32i4-f2e/hqdefault.jpg', category: 'treated', youtubeLink: 'https://www.youtube.com/watch?v=f-i32i4-f2e', tiktokLink: '' },
+            // ימי הולדת
+            { id: Date.now() + 11, title: 'מסיבת יום הולדת 70 לאשר', description: 'מסיבת הפתעה מרגשת ומרגשת במיוחד.', thumbnailUrl: 'https://i.ytimg.com/vi/g-j43j5-g3f/hqdefault.jpg', category: 'birthdays', youtubeLink: 'https://www.youtube.com/watch?v=g-j43j5-g3f', tiktokLink: '' },
+            // טיקטוק
+            { id: Date.now() + 12, title: 'ריקוד טיקטוק מצחיק', description: 'סרטון טיקטוק ויראלי שיגרום לכם לצחוק.', thumbnailUrl: 'https://i.ytimg.com/vi/h-k54k6-h4g/hqdefault.jpg', category: 'tiktok', youtubeLink: '', tiktokLink: 'https://www.tiktok.com/@some_tiktok_user/video/123456789' },
+            { id: Date.now() + 13, title: 'אתגר טיקטוק חדש', description: 'נסו את האתגר החדש והצחיק ביותר בטיקטוק!', thumbnailUrl: 'https://i.ytimg.com/vi/i-l65l7-i5h/hqdefault.jpg', category: 'tiktok', youtubeLink: '', tiktokLink: 'https://www.tiktok.com/@another_tiktok_user/video/987654321' },
+        ];
+
+        // Default categories configuration
         const defaultCategoriesConfig = [
             { id: 'greek', name: 'יוונית', icon: '🏛️', type: 'main' },
             { id: 'children', name: 'נכדים', icon: '💝', type: 'main' },
@@ -1190,206 +1097,76 @@
             { id: 'chef', name: 'סרטוני השף', icon: '👨‍🍳', type: 'main' },
         ];
 
-        // Initial video data - used for initial population of Firestore if empty
-        const initialVideosData = [
-            { title: 'שיר יווני קלאסי', description: 'סרטון מרגש עם מיטב השירים היווניים העתיקים.', thumbnailUrl: 'https://i.ytimg.com/vi/aL3pB37D2L0/hqdefault.jpg', category: 'greek', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L0', tiktokLink: '' },
-            { title: 'מנגינות יווניות עתיקות', description: 'מסע מוזיקלי אל ההיסטוריה של יוון דרך נגינה מסורתית.', thumbnailUrl: 'https://i.ytimg.com/vi/qY6rR8b2o0M/hqdefault.jpg', category: 'greek', youtubeLink: 'https://www.youtube.com/watch?v=qY6rR8b2o0M', tiktokLink: '' },
-            { title: 'מתכון לקציצות סבתא', description: 'מתכון סודי ומשפחתי לקציצות טעימות במיוחד, שלב אחר שלב.', thumbnailUrl: 'https://i.ytimg.com/vi/z3xP2E8w_w0/hqdefault.jpg', category: 'chef', youtubeLink: 'https://www.youtube.com/watch?v=z3xP2E8w_w0', tiktokLink: '' },
-            { title: 'בישול עוגת שוקולד מפנקת', description: 'מדריך קל וכיפי להכנת עוגת שוקולד שתדהים את כולם.', thumbnailUrl: 'https://i.ytimg.com/vi/z9pD_UKfDpc/hqdefault.jpg', category: 'chef', youtubeLink: 'https://www.youtube.com/watch?v=z9pD_UKfDpc', tiktokLink: '' },
-            { title: 'צחוקים עם הנכדים בפארק', description: 'רגעים מצחיקים ומתוקים של המשפחה בפארק השעשועים.', thumbnailUrl: 'https://i.ytimg.com/vi/a-d790d_a0c/hqdefault.jpg', category: 'children', youtubeLink: 'https://www.youtube.com/watch?v=a-d790d_a0c', tiktokLink: '' },
-            { title: 'חגיגת בר המצווה של דניאל', description: 'אירוע מרגש ובלתי נשכח מבר המצווה של דניאל.', thumbnailUrl: 'https://i.ytimg.com/vi/b-e81e9_b0c/hqdefault.jpg', category: 'bar-mitzvah', youtubeLink: 'https://www.youtube.com/watch?v=b-e81e9_b0c', tiktokLink: '' },
-            { title: 'טיול בטבע באלפים השוויצריים', description: 'נופים עוצרי נשימה מהטיול המשפחתי בשוויץ.', thumbnailUrl: 'https://i.ytimg.com/vi/c-f92f-c1d0/hqdefault.jpg', category: 'trips', subCategory: 'nature', youtubeLink: 'https://www.youtube.com/watch?v=c-f92f-c1d0', tiktokLink: '' },
-            { title: 'חופשה משפחתית באילת', description: 'כיף בשמש ובבריכה עם כל המשפחה.', thumbnailUrl: 'https://i.ytimg.com/vi/x-y1234-abc/hqdefault.jpg', category: 'trips', subCategory: 'eilat', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L04', tiktokLink: '' },
-            { title: 'סיור רגלי בעיר העתיקה ירושלים', description: 'מסע מרתק ברחובות ירושלים העתיקה.', thumbnailUrl: 'https://i.ytimg.com/vi/z-w5678-def/hqdefault.jpg', category: 'trips', subCategory: 'dead_sea', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L05', tiktokLink: '' },
-            { title: 'טיול שורשים בפולין', description: 'מסע מרגש בעקבות ההיסטוריה המשפחתית.', thumbnailUrl: 'https://i.ytimg.com/vi/a-b9012-ghi/hqdefault.jpg', category: 'trips', subCategory: 'abroad', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L06', tiktokLink: '' },
-            { title: 'טיול ג\'יפים ברמת הגולן', description: 'אדרנלין ונופים מדהימים בצפון הארץ.', thumbnailUrl: 'https://i.ytimg.com/vi/c-d3456-jkl/hqdefault.jpg', category: 'trips', subCategory: 'north_israel', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L07', tiktokLink: '' },
-            { title: 'הפלגה מהנה עם מנו ספנות', description: 'חוויות בלתי נשכחות על סיפון האונייה.', thumbnailUrl: 'https://i.ytimg.com/vi/m-n7890-opq/hqdefault.jpg', category: 'trips', subCategory: 'mano_shipping', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L06', tiktokLink: '' },
-            { title: 'קלאב הוטל אילת - חופשה', description: 'החופשה המדהימה בקלאב הוטל באילת.', thumbnailUrl: 'https://placehold.co/300x180/007bff/ffffff?text=קלאב+הוטל', category: 'trips', subCategory: 'eilat', subSubCategory: 'club_hotel', youtubeLink: 'https://www.youtube.com/watch?v=aL3pB37D2L09', tiktokLink: '' },
-            { title: 'לאונרדו אילת - ערב כיף', description: 'ערב בלתי נשכח במלון לאונרדו באילת.', thumbnailUrl: 'https://placehold.co/300x180/28a745/ffffff?text=לאונרדו', category: 'trips', subCategory: 'eilat', subSubCategory: 'leonardo', youtubeLink: 'https://www.youtube.com/watch?v=qY6rR8b2o0M0', tiktokLink: '' },
-            { title: 'ארוחת שישי משפחתית', description: 'ארוחת שישי חמה וטעימה עם כל המשפחה המורחבת.', thumbnailUrl: 'https://i.ytimg.com/vi/d-g10g2-d0c/hqdefault.jpg', category: 'family', youtubeLink: 'https://www.youtube.com/watch?v=d-g10g2-d0c', tiktokLink: '' },
-            { title: 'חגיגות ראש השנה בבית', description: 'שולחן חג עשיר וברכות לשנה טובה.', thumbnailUrl: 'https://i.ytimg.com/vi/e-h21h3-e1d/hqdefault.jpg', category: 'holidays', youtubeLink: 'https://www.youtube.com/watch?v=e-h21h3-e1d', tiktokLink: '' },
-            { title: 'טיפול פיזיותרפיה מוצלח', description: 'התקדמות מרגשת של מטופל בתהליך השיקום.', thumbnailUrl: 'https://i.ytimg.com/vi/f-i32i4-f2e/hqdefault.jpg', category: 'treated', youtubeLink: 'https://www.youtube.com/watch?v=f-i32i4-f2e', tiktokLink: '' },
-            { title: 'מסיבת יום הולדת 70 לאשר', description: 'מסיבת הפתעה מרגשת ומרגשת במיוחד.', thumbnailUrl: 'https://i.ytimg.com/vi/g-j43j5-g3f/hqdefault.jpg', category: 'birthdays', youtubeLink: 'https://www.youtube.com/watch?v=g-j43j5-g3f', tiktokLink: '' },
-            { title: 'ריקוד טיקטוק מצחיק', description: 'סרטון טיקטוק ויראלי שיגרום לכם לצחוק.', thumbnailUrl: 'https://i.ytimg.com/vi/h-k54k6-h4g/hqdefault.jpg', category: 'tiktok', youtubeLink: '', tiktokLink: 'https://www.tiktok.com/@some_tiktok_user/video/123456789' },
-            { title: 'אתגר טיקטוק חדש', description: 'נסו את האתגר החדש והצחיק ביותר בטיקטוק!', thumbnailUrl: 'https://i.ytimg.com/vi/i-l65l7-i5h/hqdefault.jpg', category: 'tiktok', youtubeLink: '', tiktokLink: 'https://www.tiktok.com/@another_tiktok_user/video/987654321' },
-        ];
-
-
-        let videos = []; // This will be populated from Firestore
-        let categoriesConfig = []; // This will be populated from Firestore
+        let categoriesConfig = []; // This will hold the active category configuration
 
         let adminMode = false;
         let currentCropper = null;
         let cropTarget = ''; // 'profile', 'backgroundLeft', 'backgroundRight'
 
-        // Function to load all data from Firestore
-        async function loadAllDataFromFirestore() {
-            if (!window.db) {
-                console.error("Firestore not initialized.");
-                showMessageModal('שגיאה', 'Firestore לא אותחל. הנתונים לא ייטענו.', 'error');
-                return;
-            }
+        // Load data from Local Storage on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadVideosFromLocalStorage();
+            loadProfilePhotoFromLocalStorage();
+            loadBackgroundSettingsFromLocalStorage();
+            loadCategoriesFromLocalStorage(); // Load categories first
+            renderCategoryButtons(); // Render buttons based on loaded categories
+            displayVideos();
+            showCategory('all'); // Display all videos by default
+            populateCategoryDropdowns(); // Populate add/edit video forms
+        });
 
-            // Load Videos with real-time listener
-            onSnapshot(collection(window.db, window.videosCollectionPath), (snapshot) => {
-                videos = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                console.log("Videos loaded from Firestore:", videos);
-                displayVideos();
-            }, (error) => {
-                console.error("Error loading videos from Firestore:", error);
-                showMessageModal('שגיאת טעינת סרטונים', 'אירעה שגיאה בטעינת הסרטונים.', 'error');
-            });
-
-            // Load Categories with real-time listener
-            onSnapshot(doc(window.db, window.categoriesCollectionPath, 'config'), async (docSnapshot) => {
-                if (docSnapshot.exists()) {
-                    categoriesConfig = docSnapshot.data().config;
-                    console.log("Categories loaded from Firestore:", categoriesConfig);
-                } else {
-                    console.log("No categories config found in Firestore, initializing with default.");
-                    categoriesConfig = defaultCategoriesConfig;
-                    await saveCategoriesToFirestore(); // Save default to Firestore
-                }
-                renderCategoryButtons();
-                populateCategoryDropdowns();
-                showCategory('all'); // Re-display categories after loading
-            }, (error) => {
-                console.error("Error loading categories from Firestore:", error);
-                showMessageModal('שגיאת טעינת קטגוריות', 'אירעה שגיאה בטעינת הקטגוריות.', 'error');
-            });
-
-            // Load Profile Photo
-            onSnapshot(doc(window.db, window.settingsCollectionPath, 'profilePhoto'), (docSnapshot) => {
-                if (docSnapshot.exists()) {
-                    document.querySelector('.grandpa-photo').src = docSnapshot.data().imageUrl;
-                    console.log("Profile photo loaded from Firestore.");
-                } else {
-                    console.log("No profile photo found in Firestore.");
-                    // Optionally set a default image if none exists
-                    document.querySelector('.grandpa-photo').src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Z0I+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiByeD0iNzUiIGZpbGw9IiNmZjZiNmIiLz4KPHN2ZyB4PSIzNSIgeT0iMzAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI5MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJ3aGl0ZSI+CjxwYXRoIGQ9Ik0xMiAyQzEzLjEgMiAxNCAyLjkgMTQgNFYxMEgxNkMxNi42IDEwIDE3IDEwLjQgMTcgMTFWMTJIMjBDMjAuNiAxMiAyMSAxMi40IDIxIDEzVjE5QzIxIDE5LjYgMjAuNiAyMCAyMCAyMEgxM1YyMkg4VjIwSDRWMzRDMyAzLjQgMyAzIDE5LjYgMyAxOVYxM0Mz thyme:3 12.N4 3.N4 12 4 12H7V11F7 7.N4 7.N4 10 8 10H10F4Q10 2.N9 10.N9 2 12 2ZM4 20H13L13 22V20L20 20V13H21L12 12H10.N9V4V10V4H3V20ZCIvPgo8L3N2Zz4KPHRleHQgeD0iNzUiIHk9IjEzMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+QnJldmFsPC90ZXh0Pgo8L3N2Zz4=";
-                }
-            }, (error) => {
-                console.error("Error loading profile photo from Firestore:", error);
-                showMessageModal('שגיאת טעינת תמונה', 'אירעה שגיאה בטעינת תמונת הפרופיל.', 'error');
-            });
-
-            // Load Background Settings
-            onSnapshot(doc(window.db, window.settingsCollectionPath, 'backgroundSettings'), (docSnapshot) => {
-                if (docSnapshot.exists()) {
-                    const settings = docSnapshot.data();
-                    applyBackgroundSettings(settings);
-                    // Set form values
-                    document.getElementById('bgImageUrlLeft').value = settings.imageUrlLeft || '';
-                    document.getElementById('bgImageUrlRight').value = settings.imageUrlRight || '';
-                    document.getElementById('bgImageSize').value = settings.size || 40;
-                    if (settings.position) {
-                        document.querySelector(`input[name="bgPosition"][value="${settings.position}"]`).checked = true;
+        // Close dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.trips-btn') && !event.target.matches('.trips-btn *')) {
+                const dropdowns = document.getElementsByClassName("dropdown-content");
+                for (let i = 0; i < dropdowns.length; i++) {
+                    const openDropdown = dropdowns[i];
+                    if (openDropdown.parentElement.classList.contains('show')) {
+                        openDropdown.parentElement.classList.remove('show');
                     }
-                    console.log("Background settings loaded from Firestore.");
-                } else {
-                    console.log("No background settings found in Firestore.");
-                    // Optionally apply default gradient if no settings exist
-                    document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
-                }
-            }, (error) => {
-                console.error("Error loading background settings from Firestore:", error);
-                showMessageModal('שגיאת טעינת רקע', 'אירעה שגיאה בטעינת הגדרות הרקע.', 'error');
-            });
-
-            // Check if videos collection is empty and populate if needed
-            const videosQuerySnapshot = await getDocs(collection(window.db, window.videosCollectionPath));
-            if (videosQuerySnapshot.empty) {
-                console.log("Videos collection is empty, populating with initial data.");
-                for (const videoData of initialVideosData) {
-                    await addDoc(collection(window.db, window.videosCollectionPath), videoData);
                 }
             }
         }
 
-        // Fallback for local storage (if Firebase is not configured or fails)
-        function loadAllDataFromLocalStorage() {
-            console.log("Loading data from Local Storage (Firebase not active).");
-            const storedVideos = localStorage.getItem('asherVideos');
+        function loadVideosFromLocalStorage() {
+            const storedVideos = localStorage.getItem(LOCAL_STORAGE_KEY);
             if (storedVideos) {
                 videos = JSON.parse(storedVideos);
-            } else {
-                videos = initialVideosData.map(v => ({...v, id: Date.now() + Math.random()})); // Add dummy IDs for local storage
             }
+        }
 
-            const storedCategories = localStorage.getItem('asherCategoriesConfig');
-            if (storedCategories) {
-                categoriesConfig = JSON.parse(storedCategories);
-            } else {
-                categoriesConfig = defaultCategoriesConfig;
-            }
+        function saveVideosToLocalStorage() {
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(videos));
+        }
 
-            const storedPhoto = localStorage.getItem('asherProfilePhoto');
+        function loadProfilePhotoFromLocalStorage() {
+            const storedPhoto = localStorage.getItem(LOCAL_STORAGE_PROFILE_KEY);
             if (storedPhoto) {
                 document.querySelector('.grandpa-photo').src = storedPhoto;
             }
+        }
 
-            const settings = JSON.parse(localStorage.getItem('asherBackgroundSettings'));
+        function saveProfilePhotoToLocalStorage(imageUrl) {
+            localStorage.setItem(LOCAL_STORAGE_PROFILE_KEY, imageUrl);
+            document.querySelector('.grandpa-photo').src = imageUrl;
+        }
+
+        function loadBackgroundSettingsFromLocalStorage() {
+            const settings = JSON.parse(localStorage.getItem(LOCAL_STORAGE_BACKGROUND_KEY));
             if (settings) {
                 applyBackgroundSettings(settings);
-            }
-
-            renderCategoryButtons();
-            populateCategoryDropdowns();
-            displayVideos();
-            showCategory('all');
-        }
-
-
-        // Removed loadVideosFromLocalStorage and saveVideosToLocalStorage
-        // All data operations will now go through Firestore
-
-        // Function to save categories to Firestore
-        async function saveCategoriesToFirestore() {
-            if (!window.db || !window.auth.currentUser) {
-                showMessageModal('שגיאה', 'אין הרשאה לשמור קטגוריות. אנא התחבר כמנהל.', 'error');
-                return;
-            }
-            try {
-                await setDoc(doc(window.db, window.categoriesCollectionPath, 'config'), { config: categoriesConfig });
-                console.log("Categories config saved to Firestore.");
-            } catch (e) {
-                console.error("Error saving categories config to Firestore:", e);
-                showMessageModal('שגיאת שמירה', 'אירעה שגיאה בשמירת הקטגוריות.', 'error');
+                // Set form values
+                document.getElementById('bgImageUrlLeft').value = settings.imageUrlLeft || '';
+                document.getElementById('bgImageUrlRight').value = settings.imageUrlRight || '';
+                document.getElementById('bgImageSize').value = settings.size || 40;
+                document.querySelector(`input[name="bgPosition"][value="${settings.position}"]`).checked = true;
             }
         }
 
-        // Function to save profile photo to Firestore
-        async function saveProfilePhotoToFirestore(imageUrl) {
-            if (!window.db || !window.auth.currentUser) {
-                showMessageModal('שגיאה', 'אין הרשאה לשמור תמונת פרופיל. אנא התחבר כמנהל.', 'error');
-                return;
-            }
-            try {
-                await setDoc(doc(window.db, window.settingsCollectionPath, 'profilePhoto'), { imageUrl });
-                document.querySelector('.grandpa-photo').src = imageUrl; // Update UI immediately
-                console.log("Profile photo saved to Firestore.");
-            } catch (e) {
-                console.error("Error saving profile photo to Firestore:", e);
-                showMessageModal('שגיאת שמירה', 'אירעה שגיאה בשמירת תמונת הפרופיל.', 'error');
-            }
+        function saveBackgroundSettingsToLocalStorage(settings) {
+            localStorage.setItem(LOCAL_STORAGE_BACKGROUND_KEY, JSON.stringify(settings));
+            applyBackgroundSettings(settings);
         }
-
-        // Function to save background settings to Firestore
-        async function saveBackgroundSettingsToFirestore(settings) {
-            if (!window.db || !window.auth.currentUser) {
-                showMessageModal('שגיאה', 'אין הרשאה לשמור הגדרות רקע. אנא התחבר כמנהל.', 'error');
-                return;
-            }
-            try {
-                await setDoc(doc(window.db, window.settingsCollectionPath, 'backgroundSettings'), settings);
-                applyBackgroundSettings(settings); // Apply UI changes immediately
-                console.log("Background settings saved to Firestore.");
-            } catch (e) {
-                console.error("Error saving background settings to Firestore:", e);
-                showMessageModal('שגיאת שמירה', 'אירעה שגיאה בשמירת הגדרות הרקע.', 'error');
-            }
-        }
-
 
         function applyBackgroundSettings(settings) {
             const body = document.body;
@@ -1413,8 +1190,21 @@
                 body.style.backgroundSize = `${size}, ${size}`;
             } else {
                 // If no valid image or position, revert to gradient
-                body.style.background = 'linear-gradient(135deg, #ff007f 0%, #00f0ff 50%, #8a2be2 100%)';
+                body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
             }
+        }
+
+        function loadCategoriesFromLocalStorage() {
+            const storedCategories = localStorage.getItem(LOCAL_STORAGE_CATEGORIES_KEY);
+            if (storedCategories) {
+                categoriesConfig = JSON.parse(storedCategories);
+            } else {
+                categoriesConfig = defaultCategoriesConfig;
+            }
+        }
+
+        function saveCategoriesToLocalStorage() {
+            localStorage.setItem(LOCAL_STORAGE_CATEGORIES_KEY, JSON.stringify(categoriesConfig));
         }
 
         // Recursive function to get a category object by its ID from the nested config
@@ -1550,7 +1340,7 @@
                     currentVideos.forEach(video => {
                         const videoCard = document.createElement('div');
                         videoCard.classList.add('video-card');
-                        videoCard.dataset.id = video.id; // Firestore document ID
+                        videoCard.dataset.id = video.id;
                         videoCard.dataset.category = video.category;
                         if (video.subCategory) {
                             videoCard.dataset.subCategory = video.subCategory;
@@ -1560,8 +1350,8 @@
                         }
 
                         videoCard.innerHTML = `
-                            <button class="delete-btn" onclick="deleteVideo('${video.id}')">✖</button>
-                            <button class="edit-btn" onclick="openEditVideoModal('${video.id}')">✏️</button>
+                            <button class="delete-btn" onclick="deleteVideo(${video.id})">✖</button>
+                            <button class="edit-btn" onclick="openEditVideoModal(${video.id})">✏️</button>
                             <img src="${video.thumbnailUrl || 'https://placehold.co/300x180/cccccc/333333?text=אין+תמונה'}" alt="${video.title}" class="video-thumbnail">
                             <h3 class="video-title">${video.title}</h3>
                             <p class="video-description">${video.description}</p>
@@ -1739,7 +1529,7 @@
         }
 
         // Admin functionality
-        const ADMIN_PASSWORD = 'aslan'; // CHANGE THIS TO A SECURE PASSWORD IN PRODUCTION!
+        const ADMIN_PASSWORD = 'roni2009'; // CHANGE THIS TO A SECURE PASSWORD IN PRODUCTION!
 
         function showAdminLogin() {
             document.getElementById('adminLoginModal').style.display = 'block';
@@ -1750,34 +1540,47 @@
             document.getElementById('adminPassword').value = ''; // Clear password field
         }
 
-        async function checkAdminPassword(event) {
+        function checkAdminPassword(event) {
             event.preventDefault();
             const password = document.getElementById('adminPassword').value;
             if (password === ADMIN_PASSWORD) {
-                // Attempt to sign in with a custom token if available, otherwise anonymously
-                try {
-                    if (window.auth && typeof __initial_auth_token !== 'undefined') {
-                        await signInWithCustomToken(window.auth, __initial_auth_token);
-                    } else if (window.auth) {
-                        await signInAnonymously(window.auth);
-                    }
-                    adminMode = true;
-                    document.getElementById('adminPanel').classList.add('active');
-                    document.body.classList.add('admin-mode'); // Add class to body to show delete/edit buttons
-                    closeAdminLoginModal();
-                    updateAdminModeDisplay();
-                    populateCategoryDropdowns(); // Re-populate dropdowns in admin forms
-                    showMessageModal('הודעה', 'מצב מנהל הופעל בהצלחה!', 'success');
-                } catch (error) {
-                    console.error("Admin login Firebase authentication error:", error);
-                    showMessageModal('שגיאת אימות', 'אירעה שגיאה באימות מנהל. ייתכן שאין לך הרשאות כתיבה.', 'error');
-                }
+                adminMode = true;
+                document.getElementById('adminPanel').classList.add('active');
+                document.body.classList.add('admin-mode'); // Add class to body to show delete/edit buttons
+                closeAdminLoginModal();
+                updateAdminModeDisplay();
+                populateCategoryDropdowns(); // Re-populate dropdowns in admin forms
+                // Replace alert with custom modal message if preferred
+                const messageBox = document.createElement('div');
+                messageBox.className = 'modal';
+                messageBox.innerHTML = `
+                    <div class="modal-content">
+                        <span class="close" onclick="this.parentElement.parentElement.style.display='none'">×</span>
+                        <h2>הודעה</h2>
+                        <p style="text-align: center;">מצב מנהל הופעל בהצלחה!</p>
+                        <button class="send-btn" onclick="this.parentElement.parentElement.style.display='none'">אישור</button>
+                    </div>
+                `;
+                document.body.appendChild(messageBox);
+                messageBox.style.display = 'block';
             } else {
-                showMessageModal('שגיאה', 'סיסמה שגויה.', 'error');
+                 // Replace alert with custom modal message if preferred
+                const messageBox = document.createElement('div');
+                messageBox.className = 'modal';
+                messageBox.innerHTML = `
+                    <div class="modal-content">
+                        <span class="close" onclick="this.parentElement.parentElement.style.display='none'">×</span>
+                        <h2>שגיאה</h2>
+                        <p style="text-align: center; color: red;">סיסמה שגויה.</p>
+                        <button class="send-btn" onclick="this.parentElement.parentElement.style.display='none'">אישור</button>
+                    </div>
+                `;
+                document.body.appendChild(messageBox);
+                messageBox.style.display = 'block';
             }
         }
 
-        async function exitAdmin() {
+        function exitAdmin() {
             adminMode = false;
             document.getElementById('adminPanel').classList.remove('active');
             document.body.classList.remove('admin-mode'); // Remove class from body to hide delete/edit buttons
@@ -1785,14 +1588,19 @@
             document.getElementById('addVideoForm').classList.remove('active');
             document.getElementById('backgroundSettingsForm').classList.remove('active');
             updateAdminModeDisplay();
-            showMessageModal('הודעה', 'מצב מנהל כבוי.', 'info');
-            // Optionally sign out the admin user, but keep anonymous if it was the initial state
-            if (window.auth && window.auth.currentUser && !window.auth.currentUser.isAnonymous) {
-                // If the user was signed in with a custom token for admin, sign them out.
-                // If they were originally anonymous, they remain anonymous.
-                // This logic might need refinement based on actual auth flow.
-                // For now, we'll assume the initial auth state (anonymous or custom token) is preserved.
-            }
+            // Replace alert with custom modal message if preferred
+            const messageBox = document.createElement('div');
+            messageBox.className = 'modal';
+            messageBox.innerHTML = `
+                <div class="modal-content">
+                    <span class="close" onclick="this.parentElement.parentElement.style.display='none'">×</span>
+                    <h2>הודעה</h2>
+                    <p style="text-align: center;">מצב מנהל כבוי.</p>
+                    <button class="send-btn" onclick="this.parentElement.parentElement.style.display='none'">אישור</button>
+                </div>
+            `;
+            document.body.appendChild(messageBox);
+            messageBox.style.display = 'block';
         }
 
         function updateAdminModeDisplay() {
@@ -1933,13 +1741,8 @@
         }
 
 
-        async function addNewVideo(event) {
+        function addNewVideo(event) {
             event.preventDefault();
-            if (!window.db || !window.auth.currentUser) {
-                showMessageModal('שגיאה', 'אין הרשאה להוסיף סרטון. אנא התחבר כמנהל.', 'error');
-                return;
-            }
-
             const title = document.getElementById('videoTitle').value;
             const description = document.getElementById('videoDescription').value;
             const thumbnailUrl = document.getElementById('videoThumbnailUrl').value;
@@ -1951,11 +1754,12 @@
 
 
             if (!category) {
-                showMessageModal('שגיאה', 'יש לבחור קטגוריה ראשית.', 'error');
+                showMessageModal('שגיאה', 'יש לבחור קטגוריה ראשית.', 'red');
                 return;
             }
 
-            const newVideoData = {
+            const newVideo = {
+                id: Date.now(),
                 title,
                 description,
                 thumbnailUrl,
@@ -1966,48 +1770,41 @@
                 tiktokLink
             };
 
-            try {
-                await addDoc(collection(window.db, window.videosCollectionPath), newVideoData);
-                document.getElementById('addVideoForm').classList.remove('active'); // Hide form after submission
-                event.target.reset(); // Clear form fields
-                showMessageModal('הודעה', 'סרטון נוסף בהצלחה!', 'success');
-            } catch (e) {
-                console.error("Error adding document: ", e);
-                showMessageModal('שגיאת הוספה', 'אירעה שגיאה בהוספת הסרטון.', 'error');
-            }
+            videos.push(newVideo);
+            saveVideosToLocalStorage();
+            displayVideos(); // Re-render videos to include the new one
+            document.getElementById('addVideoForm').classList.remove('active'); // Hide form after submission
+            event.target.reset(); // Clear form fields
+            showMessageModal('הודעה', 'סרטון נוסף בהצלחה!', 'green');
         }
 
         function deleteVideo(id) {
-            showConfirmModal('אישור מחיקה', 'האם אתה בטוח שברצונך למחוק סרטון זה?', async () => {
-                if (!window.db || !window.auth.currentUser) {
-                    showMessageModal('שגיאה', 'אין הרשאה למחוק סרטון. אנא התחבר כמנהל.', 'error');
-                    return;
-                }
-                try {
-                    await deleteDoc(doc(window.db, window.videosCollectionPath, id));
-                    showMessageModal('הודעה', 'הסרטון נמחק בהצלחה.', 'success');
-                } catch (e) {
-                    console.error("Error removing document: ", e);
-                    showMessageModal('שגיאת מחיקה', 'אירעה שגיאה במחיקת הסרטון.', 'error');
-                }
+            showConfirmModal('אישור מחיקה', 'האם אתה בטוח שברצונך למחוק סרטון זה?', () => {
+                videos = videos.filter(video => video.id !== id);
+                saveVideosToLocalStorage();
+                displayVideos(); // Re-render videos
+                showMessageModal('הודעה', 'הסרטון נמחק בהצלחה.', 'green');
             });
         }
 
         function openEditVideoModal(id) {
-            const video = videos.find(v => v.id === id); // 'id' here is the Firestore document ID
+            const video = videos.find(v => v.id === id);
             if (video) {
                 document.getElementById('editVideoId').value = video.id;
                 document.getElementById('editVideoTitle').value = video.title;
                 document.getElementById('editVideoDescription').value = video.description;
                 document.getElementById('editVideoThumbnailUrl').value = video.thumbnailUrl;
 
+                // Populate category dropdown and then select the video's category
                 populateCategoryDropdowns(); // Ensure dropdowns are fresh
                 document.getElementById('editVideoCategory').value = video.category;
 
-                handleCategoryChange(video.category, 'edit');
+                // Handle subCategory and subSubCategory for edit modal
+                handleCategoryChange(video.category, 'edit'); // Populate sub-category dropdown based on selected main category
                 if (video.subCategory) {
                     document.getElementById('editVideoSubCategory').value = video.subCategory;
-                    const event = new Event('change'); // Trigger change to populate sub-sub-category
+                    // Manually trigger onchange for subCategory to populate sub-sub-category dropdown
+                    const event = new Event('change');
                     document.getElementById('editVideoSubCategory').dispatchEvent(event);
                 } else {
                     document.getElementById('editVideoSubCategory').value = '';
@@ -2026,14 +1823,9 @@
             document.getElementById('editVideoModal').style.display = 'none';
         }
 
-        async function updateVideo(event) {
+        function updateVideo(event) {
             event.preventDefault();
-            if (!window.db || !window.auth.currentUser) {
-                showMessageModal('שגיאה', 'אין הרשאה לעדכן סרטון. אנא התחבר כמנהל.', 'error');
-                return;
-            }
-
-            const id = document.getElementById('editVideoId').value; // This is the Firestore document ID
+            const id = parseInt(document.getElementById('editVideoId').value);
             const title = document.getElementById('editVideoTitle').value;
             const description = document.getElementById('editVideoDescription').value;
             const thumbnailUrl = document.getElementById('editVideoThumbnailUrl').value;
@@ -2044,28 +1836,27 @@
             const subSubCategory = document.getElementById('editVideoSubSubCategory').value;
 
             if (!category) {
-                showMessageModal('שגיאה', 'יש לבחור קטגוריה ראשית.', 'error');
+                showMessageModal('שגיאה', 'יש לבחור קטגוריה ראשית.', 'red');
                 return;
             }
 
-            const updatedVideoData = {
-                title,
-                description,
-                thumbnailUrl,
-                category,
-                subCategory: subCategory || null,
-                subSubCategory: subSubCategory || null,
-                youtubeLink,
-                tiktokLink
-            };
-
-            try {
-                await updateDoc(doc(window.db, window.videosCollectionPath, id), updatedVideoData);
+            const videoIndex = videos.findIndex(v => v.id === id);
+            if (videoIndex !== -1) {
+                videos[videoIndex] = {
+                    id,
+                    title,
+                    description,
+                    thumbnailUrl,
+                    category,
+                    subCategory: subCategory || null,
+                    subSubCategory: subSubCategory || null,
+                    youtubeLink,
+                    tiktokLink
+                };
+                saveVideosToLocalStorage();
+                displayVideos();
                 closeEditVideoModal();
-                showMessageModal('הודעה', 'הסרטון עודכן בהצלחה!', 'success');
-            } catch (e) {
-                console.error("Error updating document: ", e);
-                showMessageModal('שגיאת עדכון', 'אירעה שגיאה בעדכון הסרטון.', 'error');
+                showMessageModal('הודעה', 'הסרטון עודכן בהצלחה!', 'green');
             }
         }
 
@@ -2076,13 +1867,8 @@
             document.getElementById('manageCategoriesModal').style.display = 'none'; // Hide categories form
         }
 
-        async function saveBackgroundSettings(event) {
+        function saveBackgroundSettings(event) {
             event.preventDefault();
-            if (!window.db || !window.auth.currentUser) {
-                showMessageModal('שגיאה', 'אין הרשאה לשמור הגדרות רקע. אנא התחבר כמנהל.', 'error');
-                return;
-            }
-
             const imageUrlLeft = document.getElementById('bgImageUrlLeft').value;
             const imageUrlRight = document.getElementById('bgImageUrlRight').value;
             const size = document.getElementById('bgImageSize').value;
@@ -2094,9 +1880,9 @@
                 size: parseInt(size),
                 position
             };
-            await saveBackgroundSettingsToFirestore(settings);
+            saveBackgroundSettingsToLocalStorage(settings);
             document.getElementById('backgroundSettingsForm').classList.remove('active');
-            showMessageModal('הודעה', 'הגדרות רקע נשמרו בהצלחה!', 'success');
+            showMessageModal('הודעה', 'הגדרות רקע נשמרו בהצלחה!', 'green');
         }
 
         // Image Cropper Logic
@@ -2125,24 +1911,21 @@
             reader.readAsDataURL(file);
         }
 
-        async function cropAndSaveImage() {
+        function cropAndSaveImage() {
             if (currentCropper) {
                 const croppedCanvas = currentCropper.getCroppedCanvas();
                 if (croppedCanvas) {
                     const imageUrl = croppedCanvas.toDataURL('image/png'); // Use PNG for transparency
 
                     if (cropTarget === 'profile') {
-                        await saveProfilePhotoToFirestore(imageUrl);
+                        saveProfilePhotoToLocalStorage(imageUrl);
                     } else if (cropTarget === 'backgroundLeft') {
-                        // For background images, we just update the input field.
-                        // Saving to Firestore happens when 'saveBackgroundSettings' is clicked.
                         document.getElementById('bgImageUrlLeft').value = imageUrl;
                     } else if (cropTarget === 'backgroundRight') {
                         document.getElementById('bgImageUrlRight').value = imageUrl;
                     }
 
                     closeImageCropModal();
-                    showMessageModal('הודעה', 'התמונה נשמרה בהצלחה!', 'success');
                 }
             }
         }
@@ -2220,13 +2003,8 @@
             }
         }
 
-        async function addNewCategory(event) {
+        function addNewCategory(event) {
             event.preventDefault();
-            if (!window.db || !window.auth.currentUser) {
-                showMessageModal('שגיאה', 'אין הרשאה להוסיף קטגוריה. אנא התחבר כמנהל.', 'error');
-                return;
-            }
-
             const categoryType = document.querySelector('input[name="newCategoryType"]:checked').value;
             const newCategoryName = document.getElementById('newCategoryName').value;
             const newCategoryId = document.getElementById('newCategoryId').value.toLowerCase().replace(/\s/g, '_');
@@ -2250,7 +2028,7 @@
                 });
             } else { // sub-category (can be sub-sub etc.)
                 if (!parentCategoryId) {
-                    showMessageModal('שגיאה', 'יש לבחור קטגוריית אב לתת-הקטגוריה.', 'error');
+                    showMessageModal('שגיאה', 'יש לבחור קטגוריית אב לתת-הקטגוריה.', 'red');
                     return;
                 }
 
@@ -2279,17 +2057,17 @@
                 };
 
                 if (!findParentAndAddSub(categoriesConfig, newSubCat)) {
-                    showMessageModal('שגיאה', 'קטגוריית אב לא נמצאה.', 'error');
+                    showMessageModal('שגיאה', 'קטגוריית אב לא נמצאה.', 'red');
                     return;
                 }
             }
 
-            await saveCategoriesToFirestore();
+            saveCategoriesToLocalStorage();
             renderCategoryButtons();
             displayVideos();
             populateCategoryDropdowns();
             closeManageCategoriesModal();
-            showMessageModal('הודעה', 'קטגוריה נוספה בהצלחה!', 'success');
+            showMessageModal('הודעה', 'קטגוריה נוספה בהצלחה!', 'green');
         }
     </script>
 </body>
