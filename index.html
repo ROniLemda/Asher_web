@@ -1167,7 +1167,9 @@
         }
 
         function saveVideosToLocalStorage() {
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(videos));
+          // כשאתה מוסיף סרטון
+localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(videos));
+await window.GitHubSync.autoSave(); // הוסף את השורה הזו
         }
 
         function loadProfilePhotoFromLocalStorage() {
